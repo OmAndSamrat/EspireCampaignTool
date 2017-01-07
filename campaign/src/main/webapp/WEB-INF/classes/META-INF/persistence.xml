@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
+
+    <persistence-unit name="campaign-pu">
+        <jta-data-source>java:jboss/datasources/MySqlDS</jta-data-source>
+
+        <shared-cache-mode>ALL</shared-cache-mode>
+		<properties>
+			
+			<!-- external configurations via System properties  -->
+			<property name="hibernate.dialect" value="${hibernate.dialect}" />
+			<property name="hibernate.hbm2ddl.auto" value="${hibernate.hbm2ddl.auto}" />
+			<property name="hibernate.show_sql" value="${hibernate.show_sql}" />
+			<property name="hibernate.format_sql" value="${hibernate.format_sql}" />
+			<property name="hibernate.cache.use_second_level_cache" value="${hibernate.cache.use_second_level_cache}" />
+			<property name="hibernate.cache.use_query_cache" value="${hibernate.cache.use_query_cache}" />
+			<!-- <property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.internal.NoCachingRegionFactory" /> -->
+			<!-- <property name="hibernate.cache.region.factory_class" value="org.jboss.as.jpa.hibernate4.infinispan.InfinispanRegionFactory" />  -->
+		</properties>
+    </persistence-unit>
+</persistence>
