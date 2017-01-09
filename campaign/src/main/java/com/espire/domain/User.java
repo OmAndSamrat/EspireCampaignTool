@@ -25,7 +25,7 @@ public class User implements Serializable ,Principal {
 	private String firstName;
 	private String lastName;
 	
-	@OneToMany(fetch=FetchType.EAGER)
+	@OneToMany
 	@JoinTable(name="userrole", 
     joinColumns=@JoinColumn(name="UserID"),
     inverseJoinColumns=@JoinColumn(name="RoleID"))

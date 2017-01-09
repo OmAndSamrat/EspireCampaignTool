@@ -22,10 +22,12 @@ public class LoginService {
 	}
 	
 	public User getUser(String userPrincipal){
-		return loginDao.getUserByPrincipal(userPrincipal);
+		//return loginDao.getUserByPrincipal(userPrincipal);
+		
+		return loginDao.getUserByPrincipaltyped(userPrincipal);
 	}
 	
-	public User getUser(Long userId){
+	public User getUser(Long userId,String userPrinclpal){
 		return null;
 	}
 	
