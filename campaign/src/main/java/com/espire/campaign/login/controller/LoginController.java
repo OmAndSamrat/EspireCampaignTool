@@ -12,6 +12,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 
+import org.apache.log4j.Logger;
+
 import com.espire.campaign.security.UserContainer;
 import com.espire.domain.User;
 
@@ -21,12 +23,14 @@ public class LoginController {
 	
 	@EJB
 	UserContainer userContainer;
+	
+	final static Logger log = Logger.getLogger(LoginController.class);	
 
 	@GET
 	@Path("/test")
 	@RolesAllowed("ADMIN")
 	public String getMessage(@Context SecurityContext sc){		
-				
+		log.info("test message");		
 		User user = (User)sc.getUserPrincipal();
 		return "message "+ user.getFirstName();
 	}
@@ -35,7 +39,9 @@ public class LoginController {
 	@POST
 	@Path("/login")
 	public User authenticateUser(@Context SecurityContext sc){
-		return (User)sc.getUserPrincipal();
+		User user =(User)sc.getUserPrincipal();
+		log.info("User logged in  "+user.getName());		
+		return user;
 	}
 	
 	@Path("/logout")
@@ -43,6 +49,8 @@ public class LoginController {
 	public String logoutUser(@Context SecurityContext sc ,@Context HttpServletRequest httpServletRequest){
 		HttpSession session = httpServletRequest.getSession();
 		session.invalidate();
+		User user =(User)sc.getUserPrincipal();
+		log.info("User logged out  "+user.getName());	
 		return "true";
 	}
 	

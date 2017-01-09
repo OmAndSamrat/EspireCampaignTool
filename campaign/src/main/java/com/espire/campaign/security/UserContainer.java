@@ -29,12 +29,14 @@ public class UserContainer {
 	}
 	
 	public String getUserToken(String userPrinciple){
-		return userTokenMap.get(userPrinciple);
+		return (userPrinciple!=null)?userTokenMap.get(userPrinciple):null;
 	}
 	
 	public void addUser(User user, String token){
-		userTokenMap.put(user.getUserName(), token);
-		tokenUserMap.put(token, user);
+		if(user!=null && token!=null){
+			userTokenMap.put(user.getUserName(), token);
+			tokenUserMap.put(token, user);
+		}
 	}
 	
 	public Set<String> getLoggedInUsers(){
@@ -42,13 +44,15 @@ public class UserContainer {
 	}
 	
 	public User getUser(String token){
-		return tokenUserMap.get(token);
+		return (token!=null)?tokenUserMap.get(token):null;
 	}
 	
 	public void removeUser(String userPrincipal){
-		String token = userTokenMap.get(userPrincipal);
-		userTokenMap.remove(userPrincipal);
-		tokenUserMap.remove(token);
+		if(userPrincipal!=null){
+			String token = userTokenMap.get(userPrincipal);
+			userTokenMap.remove(userPrincipal);
+			tokenUserMap.remove(token);
+		}
 	}
 	
 	public void removeUserByToken(String token){

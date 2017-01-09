@@ -12,6 +12,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.Provider;
 
+import org.apache.log4j.Logger;
+
 import com.espire.campaign.login.service.LoginService;
 import com.espire.domain.User;
 
@@ -32,6 +34,8 @@ public class AuthFilter implements ContainerRequestFilter {
 
 	@Context
 	private HttpServletRequest request;
+	
+	final static Logger log = Logger.getLogger(ContainerRequestFilter.class);	
 
 	@Override
 	public void filter(ContainerRequestContext containerRequest) throws WebApplicationException {
@@ -66,6 +70,7 @@ public class AuthFilter implements ContainerRequestFilter {
 				HttpSession session = request.getSession();
 				session.setMaxInactiveInterval(1200);
 				usercontainer.addUser(user, session.getId());
+				log.info("User authenticated "+user.getName()+" authKey Generated:"+session.getId());
 			}else{
 				throw new WebApplicationException(Status.UNAUTHORIZED);
 			}
