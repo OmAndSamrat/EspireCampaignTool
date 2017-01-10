@@ -2,7 +2,9 @@
 .recommenders
 .metadata
 .classpath
-target
+classes
+m2e-wtp
+test-classes
 .settings
 build
 RemoteSystemsTempFiles
