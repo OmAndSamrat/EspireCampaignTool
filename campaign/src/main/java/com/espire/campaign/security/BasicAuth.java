@@ -5,7 +5,6 @@ import javax.xml.bind.DatatypeConverter;
 /**
  * Allow to encode/decode the authentification.
  *
- * @author Deisss (LGPLv3)
  */
 public class BasicAuth {
     /**
