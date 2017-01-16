@@ -4,7 +4,10 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Geography  implements Serializable {
@@ -12,10 +15,13 @@ public class Geography  implements Serializable {
 	
 	private static final long serialVersionUID = -5433126545598375331L;
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long geographyID;
+	
 	private String geographyName;
-	private Integer softDelete;
+	
+	@JsonIgnore
+	private Integer softDelete = 1;
 	
 	
 	public Long getGeographyID() {
@@ -35,5 +41,10 @@ public class Geography  implements Serializable {
 	}
 	public void setSoftDelete(Integer softDelete) {
 		this.softDelete = softDelete;
+	}
+	@Override
+	public String toString() {
+		return "Geography [geographyID=" + geographyID + ", geographyName=" + geographyName + ", softDelete="
+				+ softDelete + "]";
 	}
 }

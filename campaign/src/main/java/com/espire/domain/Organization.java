@@ -2,11 +2,17 @@ package com.espire.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table(name="organisation")
@@ -14,16 +20,26 @@ public class Organization  implements Serializable{
 
 	
 	private static final long serialVersionUID = 8110176111069725224L;
+	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long organisationID;
+	
 	@ManyToOne
+	@JoinColumn(name="DomainID")
 	private Domain domain;
+	
 	@ManyToOne
+	@JoinColumn(name="GeographyID")
 	private Geography geography;
+	
 	private String organisation;
+	
 	private String organisationRemark;
-	private Integer softDelete;
+	
+	@JsonIgnore
+	private Integer softDelete =1 ;
+	
 	
 	public Long getOrganisationID() {
 		return organisationID;
@@ -60,5 +76,12 @@ public class Organization  implements Serializable{
 	}
 	public void setSoftDelete(Integer softDelete) {
 		this.softDelete = softDelete;
+	}
+
+	@Override
+	public String toString() {
+		return "Organization [organisationID=" + organisationID + ", domain=" + domain + ", geography=" + geography
+				+ ", organisation=" + organisation + ", organisationRemark=" + organisationRemark + ", softDelete="
+				+ softDelete + "]";
 	}
 }

@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class User implements Serializable ,Principal {
 
@@ -81,6 +83,7 @@ public class User implements Serializable ,Principal {
 	}
 
 	@Override
+	@JsonIgnore
 	public String getName() {
 		return getUserName();
 	}
