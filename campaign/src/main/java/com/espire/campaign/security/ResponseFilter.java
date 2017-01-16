@@ -17,8 +17,8 @@ public class ResponseFilter implements ContainerResponseFilter{
 	@Override
 	public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext)
 			throws IOException {
-			
-			String userPrinciple = requestContext.getSecurityContext().getUserPrincipal().getName();
+			responseContext.getHeaders().add("Access-Control-Allow-Origin", "http://localhost:8080/campaign/*");
+			String userPrinciple = requestContext.getSecurityContext().getUserPrincipal()!=null?requestContext.getSecurityContext().getUserPrincipal().getName():null;
 			if(usercontainer.getUserToken(userPrinciple)!=null){
 				responseContext.getHeaders().add("authKey", usercontainer.getUserToken(userPrinciple));
 			}
