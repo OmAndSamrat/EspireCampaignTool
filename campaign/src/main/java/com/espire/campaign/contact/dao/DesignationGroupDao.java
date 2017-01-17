@@ -30,7 +30,6 @@ public class DesignationGroupDao {
 		}
 		List <DesignationGroup> resultList = query.getResultList();
 		//fetch designations for each Designationgroup using Proxy to avoid Cartesian product problem
-		//https://learningviacode.blogspot.in/2012/08/fetch-join-and-cartesian-product-problem.html
 		for(DesignationGroup dg :resultList){ 
 			dg.getDesignationList().size();
 		}
@@ -47,15 +46,14 @@ public class DesignationGroupDao {
 	}
 	
 	public DesignationGroup getDesignationGroupById(Long dgId){
-		TypedQuery<DesignationGroup> query = em.createQuery("select dg from DesignationGroup dg "
+		TypedQuery<DesignationGroup> query = em.createQuery("select dg from DesignationGroup dg left join fetch dg.designationList "
 				+"where dg.softDelete = 1 and dg.designationGroupId = :dgid",DesignationGroup.class); 
 		
 		query.setParameter("dgid", dgId);
 		
 		List <DesignationGroup> resultList = query.getResultList();
-		//fetch designationList  using Proxy to avoid Cartesian product problem
+
 		if(!resultList.isEmpty()){
-			resultList.get(0).getDesignationList().size();
 			return resultList.get(0);
 		}
 		return null;
