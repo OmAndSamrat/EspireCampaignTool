@@ -51,9 +51,9 @@ public class DesignationGroupController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createDesignationGroup(@Context SecurityContext sc, @Valid DesignationGroup dom){
 		log.info(" DesignationGroupController.createDesignationGroup INVOKED BY " +sc.getUserPrincipal().getName());
-		DesignationGroup createdOrg = dgService.createDesignationGroup(dom);
+		DesignationGroup created = dgService.createDesignationGroup(dom);
 		log.info("Created DesignationGroup "+dom.toString());
-		return Response.status(Status.CREATED).entity(createdOrg).build();
+		return Response.status(Status.CREATED).entity(created).build();
 	}
 	
 	@Path("/{Id}")
@@ -62,9 +62,9 @@ public class DesignationGroupController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getDesignationGroup(@Context SecurityContext sc,@PathParam("Id") Long DesignationGroupId){
 		log.info(" DesignationGroupController.getDesignationGroup INVOKED BY " +sc.getUserPrincipal().getName());
-		DesignationGroup foundOrg =  dgService.getDesignationGroupById(DesignationGroupId);
-		if(foundOrg!=null){
-			return Response.status(Status.OK).entity(foundOrg).build();
+		DesignationGroup found =  dgService.getDesignationGroupById(DesignationGroupId);
+		if(found!=null){
+			return Response.status(Status.OK).entity(found).build();
 		}else{
 			return Response.status(Status.NOT_FOUND).build();
 		}
@@ -73,10 +73,10 @@ public class DesignationGroupController {
 	@Path("/{Id}")
 	@PUT
 	@RolesAllowed({"IS","MARKETING"})
-	public Response updateDesignationGroup(@Context SecurityContext sc,@PathParam("Id") Long DesignationGroupId, @Valid DesignationGroup dom){
+	public Response updateDesignationGroup(@Context SecurityContext sc,@PathParam("Id") Long DesignationGroupId, @Valid DesignationGroup dg){
 		log.info(" DesignationGroupController.updateDesignationGroup INVOKED BY " +sc.getUserPrincipal().getName());
 		try{
-			dgService.updateDesignationGroup(DesignationGroupId ,dom);
+			dgService.updateDesignationGroup(DesignationGroupId ,dg);
 		}catch(DBException dbe){
 			return Response.status(Status.NOT_FOUND).build();
 		}

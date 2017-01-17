@@ -11,6 +11,8 @@ import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.apache.log4j.Logger;
+
 import com.espire.campaign.contact.dao.DesignationGroupDao;
 import com.espire.campaign.exception.DBException;
 import com.espire.domain.DesignationGroup;
@@ -20,6 +22,8 @@ import com.espire.domain.DesignationGroup;
 @TransactionManagement(value=TransactionManagementType.CONTAINER)
 @TransactionAttribute(value=TransactionAttributeType.REQUIRES_NEW)
 public class DesignationGroupService {
+	
+	final static Logger log = Logger.getLogger(DesignationGroupService.class);	
 
 	@PersistenceContext(unitName = "campaign-pu")
 	EntityManager em;
@@ -40,7 +44,8 @@ public class DesignationGroupService {
 	}
 	
 	public DesignationGroup getDesignationGroupById(Long domId){
-		return dgDao.getDesignationGroupById(domId);
+		DesignationGroup dg = dgDao.getDesignationGroupById(domId);
+		return dg;
 	}
 	
 	public void updateDesignationGroup(Long domId , DesignationGroup dom) throws DBException{

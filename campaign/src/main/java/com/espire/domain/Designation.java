@@ -24,6 +24,7 @@ public class Designation implements Serializable {
 	@Size(max=50)
 	private String designation;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="DesignationGroupID")
 	private DesignationGroup designationGroup;

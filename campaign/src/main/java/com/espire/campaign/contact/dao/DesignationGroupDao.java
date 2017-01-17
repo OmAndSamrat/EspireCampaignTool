@@ -5,12 +5,16 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import org.apache.log4j.Logger;
+
 import com.espire.campaign.exception.DBException;
 import com.espire.domain.DesignationGroup;
 
 public class DesignationGroupDao {
 
 	EntityManager em;
+	
+	final static Logger log = Logger.getLogger(DesignationGroupDao.class);	
 	
 	public DesignationGroupDao(){}
 	public DesignationGroupDao(EntityManager em){	
@@ -38,7 +42,7 @@ public class DesignationGroupDao {
 	}
 	
 	public DesignationGroup getDesignationGroupById(Long dgId){
-		TypedQuery<DesignationGroup> query = em.createQuery("select dg from DesignationGroup dg "
+		TypedQuery<DesignationGroup> query = em.createQuery("select dg from DesignationGroup dg join fetch dg.designationList "
 				+"where dg.softDelete = 1 and dg.designationGroupId = :dgid",DesignationGroup.class); 
 		
 		query.setParameter("dgid", dgId);

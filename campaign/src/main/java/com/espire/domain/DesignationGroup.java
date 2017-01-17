@@ -1,9 +1,12 @@
 package com.espire.domain;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -20,6 +23,9 @@ public class DesignationGroup {
 	
 	@JsonIgnore
 	private Integer softDelete =1;
+	
+	@OneToMany(mappedBy="designationGroup")
+	private List<Designation> designationList;
 	
 	public Long getDesignationGroupId() {
 		return designationGroupId;
@@ -38,6 +44,12 @@ public class DesignationGroup {
 	}
 	public void setSoftDelete(Integer softDelete) {
 		this.softDelete = softDelete;
+	}
+	public List<Designation> getDesignationList() {
+		return designationList;
+	}
+	public void setDesignationList(List<Designation> designationList) {
+		this.designationList = designationList;
 	}
 	
 }
