@@ -2,7 +2,6 @@ package com.espire.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -33,8 +34,11 @@ public class Organization  implements Serializable{
 	@JoinColumn(name="GeographyID")
 	private Geography geography;
 	
+	@NotNull
+	@Size(max=150)
 	private String organisation;
 	
+	@Size(min=1,max=500)
 	private String organisationRemark;
 	
 	@JsonIgnore

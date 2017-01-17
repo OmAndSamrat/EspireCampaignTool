@@ -1,9 +1,8 @@
 package com.espire.campaign.org;
 
-import java.util.List;
-
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -20,6 +19,7 @@ import javax.ws.rs.core.SecurityContext;
 
 import org.apache.log4j.Logger;
 
+import com.espire.campaign.exception.DBException;
 import com.espire.campaign.org.service.OrganizationService;
 import com.espire.domain.Organization;
 
@@ -34,18 +34,22 @@ public class OrganizationController {
 	@GET
 	@RolesAllowed({"IS","MARKETING"})
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Organization> listOrganzations(@Context SecurityContext sc,
+	public Response listOrganzations(@Context SecurityContext sc,
 			@QueryParam("index")Integer resultIndex,@QueryParam("count") Integer resultCount){
 		log.info("com.espire.campaign.org.OrganizationController.listOrganzations INVOKED BY" +sc.getUserPrincipal().getName());
 		log.info("caling listOrganizations index:"+resultIndex+" count:"+resultCount);
-		return orgService.listOrganzations(resultIndex, resultCount);
+		
+		if(resultIndex==null ^ resultCount==null){
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+		return Response.status(Status.OK).entity(orgService.listOrganzations(resultIndex, resultCount)).build();
 	}
 	
 	@POST
 	@RolesAllowed({"IS","MARKETING"})
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response createOrganization(@Context SecurityContext sc,Organization org){
+	public Response createOrganization(@Context SecurityContext sc, @Valid Organization org){
 		log.info("com.espire.campaign.org.OrganizationController.createOrganization INVOKED BY" +sc.getUserPrincipal().getName());
 		Organization createdOrg = orgService.createOrganization(org);
 		log.info("Created organization "+org.toString());
@@ -56,18 +60,27 @@ public class OrganizationController {
 	@GET
 	@RolesAllowed({"IS","MARKETING"})
 	@Produces(MediaType.APPLICATION_JSON)
-	public Organization getOrganization(@Context SecurityContext sc,@PathParam("Id") Long organizationId){
+	public Response getOrganization(@Context SecurityContext sc,@PathParam("Id") Long organizationId){
 		log.info("com.espire.campaign.org.OrganizationController.getOrganization INVOKED BY" +sc.getUserPrincipal().getName());
-		return orgService.getOrganizationById(organizationId);
+		Organization foundOrg =  orgService.getOrganizationById(organizationId);
+		if(foundOrg!=null){
+			return Response.status(Status.OK).entity(foundOrg).build();
+		}else{
+			return Response.status(Status.NOT_FOUND).build();
+		}
 	}
 	
 	@Path("/{Id}")
 	@PUT
 	@RolesAllowed({"IS","MARKETING"})
-	@Produces(MediaType.APPLICATION_JSON)
-	public Organization updateOrganization(@Context SecurityContext sc,@PathParam("Id") Long organizationId ,Organization org){
+	public Response updateOrganization(@Context SecurityContext sc,@PathParam("Id") Long organizationId, @Valid Organization org){
 		log.info("com.espire.campaign.org.OrganizationController.updateOrganization INVOKED BY" +sc.getUserPrincipal().getName());
-		return orgService.updateOrganization(organizationId);
+		try{
+			orgService.updateOrganization(organizationId ,org);
+		}catch(DBException dbe){
+			return Response.status(Status.NOT_FOUND).build();
+		}
+		return  Response.status(Status.NO_CONTENT).build();
 	}
 	
 }

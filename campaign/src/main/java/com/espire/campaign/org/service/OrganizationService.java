@@ -11,6 +11,7 @@ import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import com.espire.campaign.exception.DBException;
 import com.espire.campaign.org.dao.OrganizationDao;
 import com.espire.domain.Organization;
 
@@ -41,8 +42,8 @@ public class OrganizationService {
 		return orgDao.getOrganizationById(orgId);
 	}
 	
-	public void updateOrganization(){
-		
+	public void updateOrganization(Long orgId , Organization org) throws DBException{
+		orgDao.updateOrganization(orgId , org);
 	}
 	
 }

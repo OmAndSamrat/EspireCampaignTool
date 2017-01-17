@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -18,8 +20,11 @@ public class Domain  implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long domainID;
 	
+	@NotNull
+	@Size(max=100)
 	private String domainName;
 	
+	@Size(max=300)
 	private String domainDescription;
 	
 	@JsonIgnore
