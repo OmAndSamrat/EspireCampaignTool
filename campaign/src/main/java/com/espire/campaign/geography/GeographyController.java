@@ -1,4 +1,4 @@
-package com.espire.campaign.domain;
+package com.espire.campaign.geography;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
@@ -20,39 +20,39 @@ import javax.ws.rs.core.SecurityContext;
 import org.apache.log4j.Logger;
 
 import com.espire.campaign.exception.DBException;
-import com.espire.campaign.domain.service.DomainService;
-import com.espire.domain.Domain;
+import com.espire.campaign.geography.service.GeographyService;
+import com.espire.domain.Geography;
 
-@Path("/domains")
-public class DomainController {
+@Path("/geographies")
+public class GeographyController {
 	
 	@EJB
-	DomainService domService;
+	GeographyService geoService;
 	
-	final static Logger log = Logger.getLogger(DomainController.class);	
+	final static Logger log = Logger.getLogger(GeographyController.class);	
 
 	@GET
 	@RolesAllowed({"IS","MARKETING"})
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response listDomains(@Context SecurityContext sc,
+	public Response listGeographys(@Context SecurityContext sc,
 			@QueryParam("index")Integer resultIndex,@QueryParam("count") Integer resultCount){
-		log.info(" DomainController.listDomains INVOKED BY " +sc.getUserPrincipal().getName());
-		log.info("caling listDomains index:"+resultIndex+" count:"+resultCount);
+		log.info(" GeographyController.listOrganzations INVOKED  BY: " +sc.getUserPrincipal().getName());
+		log.info("caling listGeographys index:"+resultIndex+" count:"+resultCount);
 		
 		if(resultIndex==null ^ resultCount==null){
 			return Response.status(Status.BAD_REQUEST).build();
 		}
-		return Response.status(Status.OK).entity(domService.listDomains(resultIndex, resultCount)).build();
+		return Response.status(Status.OK).entity(geoService.listGeographies(resultIndex, resultCount)).build();
 	}
 	
 	@POST
 	@RolesAllowed({"IS","MARKETING"})
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response createDomain(@Context SecurityContext sc, @Valid Domain dom){
-		log.info(" DomainController.createDomain INVOKED BY " +sc.getUserPrincipal().getName());
-		Domain createdOrg = domService.createDomain(dom);
-		log.info("Created Domain "+dom.toString());
+	public Response createGeography(@Context SecurityContext sc, @Valid Geography geo){
+		log.info(" GeographyController.createGeography INVOKED  BY: " +sc.getUserPrincipal().getName());
+		Geography createdOrg = geoService.createGeography(geo);
+		log.info("Created Geography "+geo.toString());
 		return Response.status(Status.CREATED).entity(createdOrg).build();
 	}
 	
@@ -60,9 +60,9 @@ public class DomainController {
 	@GET
 	@RolesAllowed({"IS","MARKETING"})
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getDomain(@Context SecurityContext sc,@PathParam("Id") Long DomainId){
-		log.info(" DomainController.getDomain INVOKED BY " +sc.getUserPrincipal().getName());
-		Domain foundOrg =  domService.getDomainById(DomainId);
+	public Response getGeography(@Context SecurityContext sc,@PathParam("Id") Long GeographyId){
+		log.info(" GeographyController.getGeography INVOKED  BY: " +sc.getUserPrincipal().getName());
+		Geography foundOrg =  geoService.getGeographyById(GeographyId);
 		if(foundOrg!=null){
 			return Response.status(Status.OK).entity(foundOrg).build();
 		}else{
@@ -73,10 +73,10 @@ public class DomainController {
 	@Path("/{Id}")
 	@PUT
 	@RolesAllowed({"IS","MARKETING"})
-	public Response updateDomain(@Context SecurityContext sc,@PathParam("Id") Long DomainId, @Valid Domain dom){
-		log.info(" DomainController.updateDomain INVOKED BY " +sc.getUserPrincipal().getName());
+	public Response updateGeography(@Context SecurityContext sc,@PathParam("Id") Long GeographyId, @Valid Geography geo){
+		log.info(" GeographyController.updateGeography INVOKED  BY: " +sc.getUserPrincipal().getName());
 		try{
-			domService.updateDomain(DomainId ,dom);
+			geoService.updateGeography(GeographyId ,geo);
 		}catch(DBException dbe){
 			return Response.status(Status.NOT_FOUND).build();
 		}
