@@ -22,7 +22,7 @@ import com.espire.domain.User;
 public class LoginController {
 	
 	@EJB
-	UserContainer userContainer;
+	private UserContainer userContainer;
 	
 	final static Logger log = Logger.getLogger(LoginController.class);	
 
