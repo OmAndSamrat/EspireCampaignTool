@@ -45,7 +45,7 @@ public class DesignationGroupDao {
 	}
 	
 	public DesignationGroup getDesignationGroupById(Long dgId){
-		TypedQuery<DesignationGroup> query = em.createQuery("select dg from DesignationGroup dg join fetch dg.designationList "
+		TypedQuery<DesignationGroup> query = em.createQuery("select dg from DesignationGroup dg left join fetch dg.designationList "
 				+"where dg.softDelete = 1 and dg.designationGroupId = :dgid",DesignationGroup.class); 
 		
 		query.setParameter("dgid", dgId);

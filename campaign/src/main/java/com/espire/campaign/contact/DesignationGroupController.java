@@ -23,7 +23,7 @@ import com.espire.campaign.contact.service.DesignationGroupService;
 import com.espire.campaign.exception.DBException;
 import com.espire.domain.DesignationGroup;
 
-@Path("/designationGroups")
+@Path("/designationgroups")
 public class DesignationGroupController {
 
 	@EJB

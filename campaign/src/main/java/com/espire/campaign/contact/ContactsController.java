@@ -1,4 +1,4 @@
-package com.espire.campaign.contacts;
+package com.espire.campaign.contact;
 
 public class ContactsController {
 
