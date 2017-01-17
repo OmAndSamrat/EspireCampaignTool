@@ -27,7 +27,7 @@ import com.espire.domain.Domain;
 public class DomainController {
 	
 	@EJB
-	DomainService domService;
+	private DomainService domService;
 	
 	final static Logger log = Logger.getLogger(DomainController.class);	
 

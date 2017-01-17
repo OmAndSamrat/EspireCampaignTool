@@ -10,6 +10,7 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class DesignationGroup {
@@ -24,6 +25,7 @@ public class DesignationGroup {
 	@JsonIgnore
 	private Integer softDelete =1;
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy="designationGroup")
 	private List<Designation> designationList;
 	

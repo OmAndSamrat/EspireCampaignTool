@@ -27,7 +27,7 @@ import com.espire.domain.Geography;
 public class GeographyController {
 	
 	@EJB
-	GeographyService geoService;
+	private GeographyService geoService;
 	
 	final static Logger log = Logger.getLogger(GeographyController.class);	
 

@@ -29,6 +29,9 @@ public class DesignationGroupDao {
 			query.setMaxResults(count);
 		}
 		List <DesignationGroup> resultList = query.getResultList();
+		for(DesignationGroup dg :resultList){ //fetch designations for each Designationgroup using Proxy
+			dg.getDesignationList().size();
+		}
 
 		if(!resultList.isEmpty()){
 			return resultList;

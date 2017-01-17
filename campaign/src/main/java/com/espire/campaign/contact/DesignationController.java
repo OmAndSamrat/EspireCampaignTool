@@ -27,7 +27,7 @@ import com.espire.domain.Designation;
 public class DesignationController {
 
 	@EJB
-	DesignationService designationService;
+	private DesignationService designationService;
 	
 	final static Logger log = Logger.getLogger(DesignationController.class);	
 

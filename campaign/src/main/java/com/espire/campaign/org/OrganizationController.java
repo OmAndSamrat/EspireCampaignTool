@@ -19,15 +19,20 @@ import javax.ws.rs.core.SecurityContext;
 
 import org.apache.log4j.Logger;
 
+import com.espire.campaign.contact.service.ContactService;
 import com.espire.campaign.exception.DBException;
 import com.espire.campaign.org.service.OrganizationService;
+import com.espire.domain.Contact;
 import com.espire.domain.Organization;
 
 @Path("/organizations")
 public class OrganizationController {
 	
 	@EJB
-	OrganizationService orgService;
+	private OrganizationService orgService;
+	
+	@EJB
+	private ContactService contService;
 	
 	final static Logger log = Logger.getLogger(OrganizationController.class);	
 
@@ -74,7 +79,7 @@ public class OrganizationController {
 	@PUT
 	@RolesAllowed({"IS","MARKETING"})
 	public Response updateOrganization(@Context SecurityContext sc,@PathParam("Id") Long organizationId, @Valid Organization org){
-		log.info("com.espire.campaign.org.OrganizationController.updateOrganization INVOKED BY" +sc.getUserPrincipal().getName());
+		log.info("OrganizationController.updateOrganization INVOKED BY" +sc.getUserPrincipal().getName());
 		try{
 			orgService.updateOrganization(organizationId ,org);
 		}catch(DBException dbe){
@@ -82,5 +87,27 @@ public class OrganizationController {
 		}
 		return  Response.status(Status.NO_CONTENT).build();
 	}
+	
+	@Path("/{Id}/contacts")
+	@GET
+	@RolesAllowed({"IS","MARKETING"})
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getContactsByOrganization(@Context SecurityContext sc,@PathParam("Id") Long organizationId ){
+		log.info("OrganizationController.getContactsByOrganization INVOKED BY" +sc.getUserPrincipal().getName());
+		
+		return Response.status(Status.OK).entity(contService.getContactByOrganization(organizationId)).build();
+	}
+	
+	@Path("/{Id}/contacts")
+	@POST
+	@RolesAllowed({"IS","MARKETING"})
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response createContactsinOrganization(@Context SecurityContext sc,@PathParam("Id") Long organizationId,@Valid Contact contact ){
+		log.info("OrganizationController.getContactsByOrganization INVOKED BY" +sc.getUserPrincipal().getName());
+		return Response.status(Status.CREATED).entity(contService.createContactInOraganzation(organizationId,contact)).build();
+	}
+	
+	
 	
 }
