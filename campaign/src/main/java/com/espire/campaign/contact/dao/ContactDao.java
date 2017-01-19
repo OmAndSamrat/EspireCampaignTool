@@ -42,4 +42,19 @@ public class ContactDao {
 		
 	}
 	
+	public List<Contact> searchContacts(String firstName,String lastName,
+			String email,Long designationId,Long orgId,Long designationGrpId,
+			Integer index,Integer count){
+		
+		StringBuilder query = new StringBuilder("select cnt from Contact cnt");
+		
+		
+		TypedQuery<Contact> contactQuery = em.createQuery(query.toString(),Contact.class);
+		if(index!=null && count!=null){
+			contactQuery.setFirstResult(index);
+			contactQuery.setMaxResults(count);
+		}
+		return null;
+	}
+	
 }

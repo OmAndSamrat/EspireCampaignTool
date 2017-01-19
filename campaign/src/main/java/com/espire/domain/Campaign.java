@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -22,6 +24,7 @@ public class Campaign implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long campaignID;
 
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name="StatusID")
 	private Status status;
@@ -32,7 +35,11 @@ public class Campaign implements Serializable {
 	@JsonFormat
     (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy" ,timezone="Asia/Calcutta")
 	private Date campaignEndDate;
+	
+	@Size(max=300)
 	private String campaignName;
+	
+	@Size(max=500)
 	private String campaignDescription;
 	
 	@JsonIgnore
