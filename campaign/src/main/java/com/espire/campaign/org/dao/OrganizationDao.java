@@ -62,6 +62,8 @@ public class OrganizationDao {
 	}
 	
 	public void updateOrganization (Long orgId ,Organization org) throws DBException{
+		
+		org.setOrganisationID(orgId);
 		if(org.getDomain()!=null && org.getDomain().getDomainID()!=null){
 			org.setDomain(em.find(Domain.class, org.getDomain().getDomainID()));
 		}
@@ -73,7 +75,7 @@ public class OrganizationDao {
 			em.merge(org);
 		}
 		else{
-			throw new DBException(" Organization doesnot exist");
+			throw new DBException(" Organization doesnot exist for "+orgId);
 		}
 	}
 

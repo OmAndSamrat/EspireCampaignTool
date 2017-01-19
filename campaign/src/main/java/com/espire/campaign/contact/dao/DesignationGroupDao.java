@@ -60,13 +60,13 @@ public class DesignationGroupDao {
 	}
 	
 	public void updateDesignationGroup (Long dgId ,DesignationGroup dg) throws DBException{
-		
+		dg.setDesignationGroupId(dgId);
 		DesignationGroup dbdg = em.find(DesignationGroup.class, dgId);
 		if(dbdg!=null){
 			em.merge(dg);
 		}
 		else{
-			throw new DBException(" DesignationGroup doesnot exist");
+			throw new DBException(" DesignationGroup doesnot exist for ID "+dgId);
 		}
 	}
 }

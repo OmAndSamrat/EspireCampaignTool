@@ -23,7 +23,7 @@ public class DomainService {
 	@PersistenceContext(unitName = "campaign-pu")
 	EntityManager em;
 	
-	DomainDao domainDao;
+	private DomainDao domainDao;
 	
 	@PostConstruct
 	public void init(){

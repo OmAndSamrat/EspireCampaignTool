@@ -58,7 +58,7 @@ public class DesignationDao {
 			em.merge(designation);
 		}
 		else{
-			throw new DBException(" Designation doesnot exist");
+			throw new DBException(" Designation doesnot exist for DesignationID "+designationId);
 		}
 	}
 }

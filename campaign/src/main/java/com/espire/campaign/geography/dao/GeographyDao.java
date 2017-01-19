@@ -58,7 +58,7 @@ public class GeographyDao {
 			em.merge(geo);
 		}
 		else{
-			throw new DBException(" Geography doesnot exist");
+			throw new DBException(" Geography doesnot exist for id "+geoId);
 		}
 	}
 

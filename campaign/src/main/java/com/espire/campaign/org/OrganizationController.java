@@ -57,6 +57,9 @@ public class OrganizationController {
 	public Response createOrganization(@Context SecurityContext sc, @Valid Organization org){
 		log.info("com.espire.campaign.org.OrganizationController.createOrganization INVOKED BY" +sc.getUserPrincipal().getName());
 		Organization createdOrg = orgService.createOrganization(org);
+		if(createdOrg ==null){
+			Response.status(Status.BAD_REQUEST).build();
+		}
 		log.info("Created organization "+org.toString());
 		return Response.status(Status.CREATED).entity(createdOrg).build();
 	}
@@ -67,9 +70,9 @@ public class OrganizationController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getOrganization(@Context SecurityContext sc,@PathParam("Id") Long organizationId){
 		log.info("com.espire.campaign.org.OrganizationController.getOrganization INVOKED BY" +sc.getUserPrincipal().getName());
-		Organization foundOrg =  orgService.getOrganizationById(organizationId);
-		if(foundOrg!=null){
-			return Response.status(Status.OK).entity(foundOrg).build();
+		Organization found =  orgService.getOrganizationById(organizationId);
+		if(found!=null){
+			return Response.status(Status.OK).entity(found).build();
 		}else{
 			return Response.status(Status.NOT_FOUND).build();
 		}
@@ -105,7 +108,11 @@ public class OrganizationController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createContactsinOrganization(@Context SecurityContext sc,@PathParam("Id") Long organizationId,@Valid Contact contact ){
 		log.info("OrganizationController.getContactsByOrganization INVOKED BY" +sc.getUserPrincipal().getName());
-		return Response.status(Status.CREATED).entity(contService.createContactInOraganzation(organizationId,contact)).build();
+		Contact created = contService.createContactInOraganzation(organizationId,contact);
+		if(created ==null){
+			Response.status(Status.BAD_REQUEST).build();
+		}
+		return Response.status(Status.CREATED).entity(created).build();
 	}
 	
 	

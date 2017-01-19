@@ -52,6 +52,9 @@ public class DesignationGroupController {
 	public Response createDesignationGroup(@Context SecurityContext sc, @Valid DesignationGroup dom){
 		log.info(" DesignationGroupController.createDesignationGroup INVOKED BY " +sc.getUserPrincipal().getName());
 		DesignationGroup created = dgService.createDesignationGroup(dom);
+		if(created ==null){
+			Response.status(Status.BAD_REQUEST).build();
+		}
 		log.info("Created DesignationGroup "+dom.toString());
 		return Response.status(Status.CREATED).entity(created).build();
 	}
