@@ -1,9 +1,12 @@
 package com.espire.campaign.camp;
 
+import java.util.List;
+
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -22,7 +25,7 @@ import org.apache.log4j.Logger;
 import com.espire.campaign.camp.service.CampaignService;
 import com.espire.campaign.exception.DBException;
 import com.espire.domain.Campaign;
-import com.espire.domain.Campaign;
+import com.espire.domain.Communication;
 
 @Path("/campaigns")
 public class CampaignController {
@@ -93,4 +96,64 @@ public class CampaignController {
 		}
 		return  Response.status(Status.NO_CONTENT).build();
 	}
+	
+	@POST
+	@Path("/{id}/communications")
+	@RolesAllowed({"IS","MARKETING"})
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response createCampaignCommunication(@Context SecurityContext sc,@PathParam("Id") Long campaignId, @Valid Communication communication){
+		log.info(" CampaignController.createCampaign INVOKED BY " +sc.getUserPrincipal().getName());
+		
+		if(communication.getCommunicationID()!=null){
+			return Response.status(Status.BAD_REQUEST).entity("{\"error\":\"ID cannot be sent while creating an entity\"}").build();
+		}
+		Communication created = null;
+		try{
+			created = campaignService.createCommuncation(campaignId,communication);
+		}catch(DBException dbe){
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+		log.info("Created communication "+created.toString());
+		
+		return Response.status(Status.CREATED).entity(created).build();
+	}
+	
+	@GET
+	@Path("/{id}/communications")
+	@RolesAllowed({"IS","MARKETING"})
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response listCampaignCommunication(@Context SecurityContext sc,@PathParam("Id") Long campaignId, 
+			@QueryParam("index")Integer resultIndex,@QueryParam("count") Integer resultCount){
+		log.info(" CampaignController.createCampaign INVOKED BY " +sc.getUserPrincipal().getName());
+		
+		List<Communication> communicationList;
+		try {
+			communicationList = campaignService.listCommuncation(campaignId, resultIndex, resultCount);
+		} catch (DBException e) {
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+		
+		return Response.status(Status.OK).entity(communicationList).build();
+	}
+	
+	@DELETE
+	@Path("/{id}/communications/{comId}")
+	@RolesAllowed({"IS","MARKETING"})
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response deleteCampaignCommunication(@Context SecurityContext sc,@PathParam("Id") Long campaignId, 
+			@PathParam("comId") Long communcationId){
+		log.info(" CampaignController.createCampaign INVOKED BY " +sc.getUserPrincipal().getName());
+		
+		try {
+			Communication comm = new Communication();
+			comm.setCommunicationID(communcationId);
+			campaignService.deleteCommuncation(campaignId,comm);
+		} catch (DBException e) {
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+		
+		return Response.status(Status.NO_CONTENT).build();
+	}
+	
 }

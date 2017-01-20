@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -16,16 +17,18 @@ public class Communication {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long communicationID;
 	
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name="ContactID")
 	private Contact contact;
 	
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name="CampaignID")
 	private Campaign campaign;
 	
 	@JsonIgnore
-	private Integer softDelete;
+	private Integer softDelete =1 ;
 	
 	public Long getCommunicationID() {
 		return communicationID;
