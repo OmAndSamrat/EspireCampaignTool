@@ -51,6 +51,9 @@ public class DomainController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createDomain(@Context SecurityContext sc, @Valid Domain dom){
 		log.info(" DomainController.createDomain INVOKED BY " +sc.getUserPrincipal().getName());
+		if(dom.getDomainID()!=null){
+			return Response.status(Status.BAD_REQUEST).entity("{\"error\":\"ID cannot be sent while creating an entity\"}").build();
+		}
 		Domain created = domService.createDomain(dom);
 		if(created ==null){
 			Response.status(Status.BAD_REQUEST).build();

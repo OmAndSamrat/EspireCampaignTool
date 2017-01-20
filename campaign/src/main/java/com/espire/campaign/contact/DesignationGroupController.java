@@ -51,6 +51,9 @@ public class DesignationGroupController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createDesignationGroup(@Context SecurityContext sc, @Valid DesignationGroup dom){
 		log.info(" DesignationGroupController.createDesignationGroup INVOKED BY " +sc.getUserPrincipal().getName());
+		if(dom.getDesignationGroupId()!=null){
+			return Response.status(Status.BAD_REQUEST).entity("{\"error\":\"ID cannot be sent while creating an entity\"}").build();
+		}
 		DesignationGroup created = dgService.createDesignationGroup(dom);
 		if(created ==null){
 			Response.status(Status.BAD_REQUEST).build();

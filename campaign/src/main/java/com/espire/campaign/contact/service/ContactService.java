@@ -38,10 +38,10 @@ public class ContactService {
 	}
 	
 	public List<Contact> searchContacts(String firstName,String lastName,
-			String email,Long designationId,Long orgId,Long designationGrpId,
+			String email,Long designationId,Long orgId,Long designationGrpId,String gender,
 			Integer resultIndex,Integer resultCount){
 		return contactDao.searchContacts( firstName, lastName,
-				 email, designationId, orgId, designationGrpId,
+				 email, designationId, orgId, designationGrpId,gender,
 				 resultIndex, resultCount);
 	}
 

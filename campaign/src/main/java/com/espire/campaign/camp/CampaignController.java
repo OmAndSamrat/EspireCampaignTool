@@ -52,11 +52,15 @@ public class CampaignController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createCampaign(@Context SecurityContext sc, @Valid Campaign camp){
 		log.info(" CampaignController.createCampaign INVOKED BY " +sc.getUserPrincipal().getName());
+		
+		if(camp.getCampaignID()!=null){
+			return Response.status(Status.BAD_REQUEST).entity("{\"error\":\"ID cannot be sent while creating an entity\"}").build();
+		}
 		Campaign created = null;
 		try{
 			created = campaignService.createCampaign(camp);
 		}catch(DBException dbe){
-			return Response.status(Status.BAD_REQUEST).build();
+			return Response.status(Status.BAD_REQUEST).entity(dbe.getMessage()).build();
 		}
 		log.info("Created Campaign "+camp.toString());
 		

@@ -56,6 +56,9 @@ public class OrganizationController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createOrganization(@Context SecurityContext sc, @Valid Organization org){
 		log.info("com.espire.campaign.org.OrganizationController.createOrganization INVOKED BY" +sc.getUserPrincipal().getName());
+		if(org.getOrganisationID()!=null){
+			return Response.status(Status.BAD_REQUEST).entity("{\"error\":\"ID cannot be sent while creating an entity\"}").build();
+		}
 		Organization createdOrg = orgService.createOrganization(org);
 		if(createdOrg ==null){
 			Response.status(Status.BAD_REQUEST).build();
@@ -108,6 +111,9 @@ public class OrganizationController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createContactsinOrganization(@Context SecurityContext sc,@PathParam("Id") Long organizationId,@Valid Contact contact ){
 		log.info("OrganizationController.getContactsByOrganization INVOKED BY" +sc.getUserPrincipal().getName());
+		if(contact.getContactID()!=null){
+			return Response.status(Status.BAD_REQUEST).entity("{\"error\":\"ID cannot be sent while creating an entity\"}").build();
+		}
 		Contact created = contService.createContactInOraganzation(organizationId,contact);
 		if(created ==null){
 			Response.status(Status.BAD_REQUEST).build();
