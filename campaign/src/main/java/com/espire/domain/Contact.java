@@ -50,6 +50,12 @@ public class Contact implements Serializable{
 	@JoinColumn(name="OrganisationID")
 	private Organization organization;
 	
+	@Size(max=20)
+	private String primaryPhone;
+	
+	@Size(max=20)	
+	private String SecondaryPhone;
+	
 	@JsonIgnore
 	private Integer softDelete = 1;
 	

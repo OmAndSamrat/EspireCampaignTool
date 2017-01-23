@@ -38,8 +38,12 @@ public class Organization  implements Serializable{
 	@Size(max=150)
 	private String organisation;
 	
-	@Size(min=1,max=500)
+	@Size(max=500)
 	private String organisationRemark;
+	
+	@Size(max=50)
+	@NotNull
+	private String organisationFirstName;
 	
 	@JsonIgnore
 	private Integer softDelete =1 ;
