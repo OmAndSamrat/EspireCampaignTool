@@ -51,6 +51,9 @@ public class DesignationController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createDesignation(@Context SecurityContext sc, @Valid Designation designation){
 		log.info(" DesignationController.createDesignation INVOKED BY " +sc.getUserPrincipal().getName());
+		if(designation.getDesignationId()!=null){
+			return Response.status(Status.BAD_REQUEST).entity("{\"error\":\"ID cannot be sent while creating an entity\"}").build();
+		}
 		Designation createdDesig = designationService.createDesignation(designation);
 		log.info("Created Designation "+designation.toString());
 		return Response.status(Status.CREATED).entity(createdDesig).build();

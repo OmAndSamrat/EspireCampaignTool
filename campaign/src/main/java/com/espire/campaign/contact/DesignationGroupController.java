@@ -23,7 +23,7 @@ import com.espire.campaign.contact.service.DesignationGroupService;
 import com.espire.campaign.exception.DBException;
 import com.espire.domain.DesignationGroup;
 
-@Path("/designationGroups")
+@Path("/designationgroups")
 public class DesignationGroupController {
 
 	@EJB
@@ -51,7 +51,13 @@ public class DesignationGroupController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createDesignationGroup(@Context SecurityContext sc, @Valid DesignationGroup dom){
 		log.info(" DesignationGroupController.createDesignationGroup INVOKED BY " +sc.getUserPrincipal().getName());
+		if(dom.getDesignationGroupId()!=null){
+			return Response.status(Status.BAD_REQUEST).entity("{\"error\":\"ID cannot be sent while creating an entity\"}").build();
+		}
 		DesignationGroup created = dgService.createDesignationGroup(dom);
+		if(created ==null){
+			Response.status(Status.BAD_REQUEST).build();
+		}
 		log.info("Created DesignationGroup "+dom.toString());
 		return Response.status(Status.CREATED).entity(created).build();
 	}

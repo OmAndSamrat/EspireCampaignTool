@@ -51,6 +51,9 @@ public class GeographyController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createGeography(@Context SecurityContext sc, @Valid Geography geo){
 		log.info(" GeographyController.createGeography INVOKED  BY: " +sc.getUserPrincipal().getName());
+		if(geo.getGeographyID()!=null){
+			return Response.status(Status.BAD_REQUEST).entity("{\"error\":\"ID cannot be sent while creating an entity\"}").build();
+		}
 		Geography createdOrg = geoService.createGeography(geo);
 		log.info("Created Geography "+geo.toString());
 		return Response.status(Status.CREATED).entity(createdOrg).build();
@@ -62,9 +65,9 @@ public class GeographyController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getGeography(@Context SecurityContext sc,@PathParam("Id") Long GeographyId){
 		log.info(" GeographyController.getGeography INVOKED  BY: " +sc.getUserPrincipal().getName());
-		Geography foundOrg =  geoService.getGeographyById(GeographyId);
-		if(foundOrg!=null){
-			return Response.status(Status.OK).entity(foundOrg).build();
+		Geography found =  geoService.getGeographyById(GeographyId);
+		if(found!=null){
+			return Response.status(Status.OK).entity(found).build();
 		}else{
 			return Response.status(Status.NOT_FOUND).build();
 		}

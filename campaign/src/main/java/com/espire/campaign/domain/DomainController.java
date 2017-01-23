@@ -51,9 +51,15 @@ public class DomainController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createDomain(@Context SecurityContext sc, @Valid Domain dom){
 		log.info(" DomainController.createDomain INVOKED BY " +sc.getUserPrincipal().getName());
-		Domain createdOrg = domService.createDomain(dom);
+		if(dom.getDomainID()!=null){
+			return Response.status(Status.BAD_REQUEST).entity("{\"error\":\"ID cannot be sent while creating an entity\"}").build();
+		}
+		Domain created = domService.createDomain(dom);
+		if(created ==null){
+			Response.status(Status.BAD_REQUEST).build();
+		}
 		log.info("Created Domain "+dom.toString());
-		return Response.status(Status.CREATED).entity(createdOrg).build();
+		return Response.status(Status.CREATED).entity(created).build();
 	}
 	
 	@Path("/{Id}")
@@ -62,9 +68,9 @@ public class DomainController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getDomain(@Context SecurityContext sc,@PathParam("Id") Long DomainId){
 		log.info(" DomainController.getDomain INVOKED BY " +sc.getUserPrincipal().getName());
-		Domain foundOrg =  domService.getDomainById(DomainId);
-		if(foundOrg!=null){
-			return Response.status(Status.OK).entity(foundOrg).build();
+		Domain found =  domService.getDomainById(DomainId);
+		if(found!=null){
+			return Response.status(Status.OK).entity(found).build();
 		}else{
 			return Response.status(Status.NOT_FOUND).build();
 		}

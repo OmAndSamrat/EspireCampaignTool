@@ -29,7 +29,8 @@ public class DesignationGroupDao {
 			query.setMaxResults(count);
 		}
 		List <DesignationGroup> resultList = query.getResultList();
-		for(DesignationGroup dg :resultList){ //fetch designations for each Designationgroup using Proxy
+		//fetch designations for each Designationgroup using Proxy to avoid Cartesian product problem
+		for(DesignationGroup dg :resultList){ 
 			dg.getDesignationList().size();
 		}
 
@@ -45,7 +46,7 @@ public class DesignationGroupDao {
 	}
 	
 	public DesignationGroup getDesignationGroupById(Long dgId){
-		TypedQuery<DesignationGroup> query = em.createQuery("select dg from DesignationGroup dg join fetch dg.designationList "
+		TypedQuery<DesignationGroup> query = em.createQuery("select dg from DesignationGroup dg left join fetch dg.designationList "
 				+"where dg.softDelete = 1 and dg.designationGroupId = :dgid",DesignationGroup.class); 
 		
 		query.setParameter("dgid", dgId);
@@ -59,13 +60,13 @@ public class DesignationGroupDao {
 	}
 	
 	public void updateDesignationGroup (Long dgId ,DesignationGroup dg) throws DBException{
-		
+		dg.setDesignationGroupId(dgId);
 		DesignationGroup dbdg = em.find(DesignationGroup.class, dgId);
 		if(dbdg!=null){
 			em.merge(dg);
 		}
 		else{
-			throw new DBException(" DesignationGroup doesnot exist");
+			throw new DBException(" DesignationGroup doesnot exist for ID "+dgId);
 		}
 	}
 }

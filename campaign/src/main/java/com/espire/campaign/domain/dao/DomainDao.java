@@ -52,13 +52,13 @@ public class DomainDao {
 	}
 	
 	public void updateDomain (Long domId ,Domain dom) throws DBException{
-		
+		dom.setDomainID(domId);
 		Domain dbdom = em.find(Domain.class, domId);
 		if(dbdom!=null){
 			em.merge(dom);
 		}
 		else{
-			throw new DBException(" Domain doesnot exist");
+			throw new DBException(" Domain doesnot exist for id "+domId);
 		}
 	}
 

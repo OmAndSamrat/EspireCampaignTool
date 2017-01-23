@@ -36,5 +36,13 @@ public class ContactService {
 	public Contact createContactInOraganzation(Long organizationId, Contact contact){
 		return contactDao.createContactInOraganzation(organizationId, contact);
 	}
+	
+	public List<Contact> searchContacts(String firstName,String lastName,
+			String email,Long designationId,Long orgId,Long designationGrpId,String gender,
+			Integer resultIndex,Integer resultCount){
+		return contactDao.searchContacts( firstName, lastName,
+				 email, designationId, orgId, designationGrpId,gender,
+				 resultIndex, resultCount);
+	}
 
 }
