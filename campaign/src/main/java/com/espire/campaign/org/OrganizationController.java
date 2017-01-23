@@ -85,7 +85,7 @@ public class OrganizationController {
 		}catch(DBException dbe){
 			return Response.status(Status.NOT_FOUND).build();
 		}
-		return  Response.status(Status.NO_CONTENT).build();
+		return  Response.status(Status.OK).entity(org).build();
 	}
 	
 	@Path("/{Id}/contacts")
