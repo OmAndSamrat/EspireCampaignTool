@@ -1,6 +1,8 @@
 package com.espire.campaign.camp;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
@@ -70,11 +72,11 @@ public class CampaignController {
 		return Response.status(Status.CREATED).entity(created).build();
 	}
 	
-	@Path("/{Id}")
+	@Path("/{id}")
 	@GET
 	@RolesAllowed({"IS","MARKETING"})
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getCampaign(@Context SecurityContext sc,@PathParam("Id") Long campaignId){
+	public Response getCampaign(@Context SecurityContext sc,@PathParam("id") Long campaignId){
 		log.info(" CampaignController.getCampaign INVOKED BY " +sc.getUserPrincipal().getName());
 		Campaign found =  campaignService.getCampaignById(campaignId);
 		if(found!=null){
@@ -84,10 +86,10 @@ public class CampaignController {
 		}
 	}
 	
-	@Path("/{Id}")
+	@Path("/{id}")
 	@PUT
 	@RolesAllowed({"IS","MARKETING"})
-	public Response updateCampaign(@Context SecurityContext sc,@PathParam("Id") Long campaignId, @Valid Campaign camp){
+	public Response updateCampaign(@Context SecurityContext sc,@PathParam("id") Long campaignId, @Valid Campaign camp){
 		log.info("CampaignController.updateCampaign INVOKED BY" +sc.getUserPrincipal().getName());
 		try{
 			campaignService.updateCampaign(campaignId ,camp);
@@ -96,34 +98,42 @@ public class CampaignController {
 		}
 		return  Response.status(Status.NO_CONTENT).build();
 	}
-	
+
 	@POST
 	@Path("/{id}/communications")
 	@RolesAllowed({"IS","MARKETING"})
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response createCampaignCommunication(@Context SecurityContext sc,@PathParam("Id") Long campaignId, @Valid Communication communication){
-		log.info(" CampaignController.createCampaign INVOKED BY " +sc.getUserPrincipal().getName());
+	public Response bulkCreateCampaignCommunication(@Context SecurityContext sc,@PathParam("id") Long campaignId, @Valid Set<Communication> communicationList){
+		log.info(" CampaignController.bulkCreateCampaignCommunication INVOKED BY " +sc.getUserPrincipal().getName());
 		
-		if(communication.getCommunicationID()!=null){
-			return Response.status(Status.BAD_REQUEST).entity("{\"error\":\"ID cannot be sent while creating an entity\"}").build();
+		if(communicationList.isEmpty()){
+			return Response.status(Status.BAD_REQUEST).entity("{\"error\":\"Empty communicationlist\"}").build();
 		}
-		Communication created = null;
-		try{
-			created = campaignService.createCommuncation(campaignId,communication);
-		}catch(DBException dbe){
-			return Response.status(Status.BAD_REQUEST).build();
+		Set<Communication> returnList = new HashSet<>() ;
+		for(Communication communication: communicationList){
+			if(communication.getCommunicationID()!=null){
+				return Response.status(Status.BAD_REQUEST).entity("{\"error\":\"ID cannot be sent while creating an entity\"}").build();
+			}
+			Communication created = null;
+			try{
+				created = campaignService.createCommuncation(campaignId,communication);
+				returnList.add(created);
+			}catch(DBException dbe){
+				return Response.status(Status.BAD_REQUEST).build();
+			}
+			log.info("Created communication "+created.toString());
+			
 		}
-		log.info("Created communication "+created.toString());
 		
-		return Response.status(Status.CREATED).entity(created).build();
+		return Response.status(Status.CREATED).entity(returnList).build();
 	}
 	
 	@GET
 	@Path("/{id}/communications")
 	@RolesAllowed({"IS","MARKETING"})
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response listCampaignCommunication(@Context SecurityContext sc,@PathParam("Id") Long campaignId, 
+	public Response listCampaignCommunication(@Context SecurityContext sc,@PathParam("id") Long campaignId, 
 			@QueryParam("index")Integer resultIndex,@QueryParam("count") Integer resultCount){
 		log.info(" CampaignController.createCampaign INVOKED BY " +sc.getUserPrincipal().getName());
 		
@@ -141,7 +151,7 @@ public class CampaignController {
 	@Path("/{id}/communications/{comId}")
 	@RolesAllowed({"IS","MARKETING"})
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response deleteCampaignCommunication(@Context SecurityContext sc,@PathParam("Id") Long campaignId, 
+	public Response deleteCampaignCommunication(@Context SecurityContext sc,@PathParam("id") Long campaignId, 
 			@PathParam("comId") Long communcationId){
 		log.info(" CampaignController.createCampaign INVOKED BY " +sc.getUserPrincipal().getName());
 		
