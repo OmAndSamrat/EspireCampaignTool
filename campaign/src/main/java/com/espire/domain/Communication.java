@@ -1,11 +1,14 @@
 package com.espire.domain;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -26,6 +29,9 @@ public class Communication {
 	@ManyToOne
 	@JoinColumn(name="CampaignID")
 	private Campaign campaign;
+	
+	@OneToMany(mappedBy="communication")
+	private Set<CommunicationTracker> communications;
 	
 	@JsonIgnore
 	private Integer softDelete =1 ;
@@ -53,5 +59,9 @@ public class Communication {
 	}
 	public void setSoftDelete(Integer softDelete) {
 		this.softDelete = softDelete;
+	}
+	
+	public Boolean isTrial(){
+		return (contact.getTrial()!=null)?contact.getTrial():Boolean.FALSE;
 	}
 }

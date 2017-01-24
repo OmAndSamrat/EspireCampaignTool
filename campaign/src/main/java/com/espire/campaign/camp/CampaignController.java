@@ -28,6 +28,7 @@ import com.espire.campaign.camp.service.CampaignService;
 import com.espire.campaign.exception.DBException;
 import com.espire.domain.Campaign;
 import com.espire.domain.Communication;
+import com.espire.domain.User;
 
 @Path("/campaigns")
 public class CampaignController {
@@ -164,6 +165,16 @@ public class CampaignController {
 		}
 		
 		return Response.status(Status.NO_CONTENT).build();
+	}
+	
+	@POST
+	@Path("/{id}/edm/{edmid}/try")
+	@RolesAllowed({"MARKETING"})
+	public Response tryCampaign(@Context SecurityContext sc,@PathParam("id") Long campaignId,@PathParam("edmid") Long edmId){
+		log.info(" CampaignController.tryCampaign INVOKED BY " +sc.getUserPrincipal().getName());
+		User loginUser = (User)sc.getUserPrincipal();
+		campaignService.runCampaign(loginUser,campaignId, edmId,true);
+		return Response.status(Status.OK).build();
 	}
 	
 }

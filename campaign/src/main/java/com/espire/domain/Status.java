@@ -21,8 +21,17 @@ public class Status implements Serializable {
 	@Column(name="status")
 	private String statusDesc;
 	@JsonIgnore
-	private Integer softDelete;
+	private Integer softDelete=1;
 	
+	public Status(){
+		
+	}
+	
+	public Status(Long statusID, String statusDesc) {
+		super();
+		this.statusID = statusID;
+		this.statusDesc = statusDesc;
+	}
 	public Long getStatusID() {
 		return statusID;
 	}

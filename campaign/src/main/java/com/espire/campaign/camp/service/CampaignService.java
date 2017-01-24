@@ -3,6 +3,7 @@ package com.espire.campaign.camp.service;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -15,6 +16,15 @@ import com.espire.campaign.camp.dao.CampaignDao;
 import com.espire.campaign.exception.DBException;
 import com.espire.domain.Campaign;
 import com.espire.domain.Communication;
+import com.espire.domain.CommunicationTracker;
+import com.espire.domain.Edm;
+import com.espire.domain.Status;
+import com.espire.domain.User;
+import com.espire.email.job.BatchEmailJob;
+import com.espire.email.jobexecutor.EmailJobExecutor;
+import com.espire.email.jobexecutor.EmailJobExecutorImpl;
+import com.espire.email.mailengine.SendEmailEngine;
+import com.espire.email.main.EmailJobFactory;
 
 @Stateless
 @TransactionManagement(value=TransactionManagementType.CONTAINER)
@@ -56,5 +66,27 @@ public class CampaignService {
 	
 	public void deleteCommuncation (Long campaignId , Communication communication ) throws DBException{
 		campaignDao.deleteCommuncation(campaignId,communication);
+	}
+	
+	@Asynchronous
+	@TransactionAttribute(value=TransactionAttributeType.NOT_SUPPORTED)
+	public void runCampaign(User loginUser,Long campaignId , Long edmId,Boolean trialMode){
+		try {
+			Edm edm = campaignDao.getEdm(edmId);
+			BatchEmailJob batchJob =new EmailJobFactory(this).createEmailJobs(loginUser,edm,true);
+			EmailJobExecutor executor = new EmailJobExecutorImpl(new SendEmailEngine());
+			executor.sendBulkEmail(batchJob);
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public Status getStatusByDesc(String statusDesc){
+		return campaignDao.getStatusByDesc(statusDesc);
+	}
+	
+	public CommunicationTracker createCommTracker (CommunicationTracker ct){
+		return campaignDao.createCommTracker(ct);
 	}
 }

@@ -54,7 +54,9 @@ public class Contact implements Serializable{
 	private String primaryPhone;
 	
 	@Size(max=20)	
-	private String SecondaryPhone;
+	private String secondaryPhone;
+	
+	private Boolean trial=Boolean.FALSE;
 	
 	@JsonIgnore
 	private Integer softDelete = 1;
@@ -112,6 +114,24 @@ public class Contact implements Serializable{
 	}
 	public void setSoftDelete(Integer softDelete) {
 		this.softDelete = softDelete;
+	}
+	public Boolean getTrial() {
+		return trial;
+	}
+	public void setTrial(Boolean trial) {
+		this.trial = trial;
+	}
+	public String getPrimaryPhone() {
+		return primaryPhone;
+	}
+	public void setPrimaryPhone(String primaryPhone) {
+		this.primaryPhone = primaryPhone;
+	}
+	public String getSecondaryPhone() {
+		return secondaryPhone;
+	}
+	public void setSecondaryPhone(String secondaryPhone) {
+		this.secondaryPhone = secondaryPhone;
 	}
 	
 }

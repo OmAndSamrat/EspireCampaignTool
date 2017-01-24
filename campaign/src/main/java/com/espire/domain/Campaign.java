@@ -2,6 +2,7 @@ package com.espire.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -36,6 +38,7 @@ public class Campaign implements Serializable {
     (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy" ,timezone="Asia/Calcutta")
 	private Date campaignEndDate;
 	
+	@NotNull
 	@Size(max=300)
 	private String campaignName;
 	
@@ -44,6 +47,14 @@ public class Campaign implements Serializable {
 	
 	@JsonIgnore
 	private Integer softDelete = 1;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy="campaign")
+	private Set<Communication> communicationList;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy="campaign")
+	private Set<Edm> edmList;
 	
 	public Long getCampaignID() {
 		return campaignID;
@@ -80,6 +91,18 @@ public class Campaign implements Serializable {
 	}
 	public void setCampaignDescription(String campaignDescription) {
 		this.campaignDescription = campaignDescription;
+	}
+	public Set<Edm> getEdmList() {
+		return edmList;
+	}
+	public void setEdmList(Set<Edm> edmList) {
+		this.edmList = edmList;
+	}
+	public Set<Communication> getCommunicationList() {
+		return communicationList;
+	}
+	public void setCommunicationList(Set<Communication> communicationList) {
+		this.communicationList = communicationList;
 	}
 	public Integer getSoftDelete() {
 		return softDelete;

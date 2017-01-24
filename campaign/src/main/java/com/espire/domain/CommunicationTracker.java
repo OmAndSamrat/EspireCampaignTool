@@ -8,9 +8,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="communcationtracker")
 public class CommunicationTracker implements Serializable {
 
 	
@@ -32,7 +33,8 @@ public class CommunicationTracker implements Serializable {
 	@JoinColumn(name ="UserID")
 	private User user;
 	
-	@Transient
+	@ManyToOne
+	@JoinColumn(name ="EDMID")
 	Edm edm;
 
 	public Long getCommunicationTrackerID() {

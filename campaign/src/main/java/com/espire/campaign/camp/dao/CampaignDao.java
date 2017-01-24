@@ -8,7 +8,9 @@ import javax.persistence.TypedQuery;
 import com.espire.campaign.exception.DBException;
 import com.espire.domain.Campaign;
 import com.espire.domain.Communication;
+import com.espire.domain.CommunicationTracker;
 import com.espire.domain.Contact;
+import com.espire.domain.Edm;
 import com.espire.domain.Status;
 
 public class CampaignDao {
@@ -41,6 +43,16 @@ public class CampaignDao {
 					.setParameter("statusCode", "DRAFT").getSingleResult();
 			camp.setStatus(stat);
 			em.persist(camp);
+			
+			//Create list of trial communications
+			List<Contact> trialContacts = em.createQuery("select cont from Contact cont where cont.trial=true",Contact.class).getResultList(); 
+			for(Contact tc : trialContacts){
+				Communication comm = new Communication();
+				comm.setCampaign(camp);
+				comm.setContact(tc);
+				em.persist(comm);
+			}
+			
 		}catch(Exception ex){
 			camp=null;
 			throw new DBException();
@@ -115,6 +127,24 @@ public class CampaignDao {
 		
 		dbCommunication.setSoftDelete(0);
 		em.persist(dbCommunication);
+	}
+	
+	public Edm getEdm(Long edmId) throws DBException{
+		if(edmId==null ){
+			throw new DBException("edmId id cannot be null");
+		}
+		return em.find(Edm.class, edmId);
+	}
+	
+	public Status getStatusByDesc(String statusDesc){
+		Status stat = em.createQuery("select stat from Status stat where stat.statusDesc = :statusCode",Status.class)
+				.setParameter("statusCode", statusDesc).getSingleResult();
+		return stat;
+	}
+	
+	public CommunicationTracker createCommTracker (CommunicationTracker ct){
+		em.persist(ct);
+		return ct;
 	}
 	
 }
