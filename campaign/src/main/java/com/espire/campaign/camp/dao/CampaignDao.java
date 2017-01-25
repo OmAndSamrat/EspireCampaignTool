@@ -146,5 +146,8 @@ public class CampaignDao {
 		em.persist(ct);
 		return ct;
 	}
+	public CommunicationTracker getCommTracker (Long ctId){
+		return em.find(CommunicationTracker.class, ctId);
+	}
 	
 }

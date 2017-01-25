@@ -3,7 +3,7 @@ package com.espire.email.job;
 public class EmailJob {
 	
 	private String name;
-	private String trackingId;
+	private Long trackingId;
 	private String toAddress;
 	private String ccAddress;
 	private String bccAddress;
@@ -20,16 +20,16 @@ public class EmailJob {
 		this.toAddress = toAddress;
 	}
 	
-	public EmailJob( String trackingId, String toAddress,String name) {
+	public EmailJob( Long trackingId, String toAddress,String name) {
 		super();
 		this.name = name;
 		this.trackingId = trackingId;
 		this.toAddress = toAddress;
 	}
-	public String getTrackingId() {
+	public Long getTrackingId() {
 		return trackingId;
 	}
-	public void setTrackingId(String trackingId) {
+	public void setTrackingId(Long trackingId) {
 		this.trackingId = trackingId;
 	}
 	public String getName() {

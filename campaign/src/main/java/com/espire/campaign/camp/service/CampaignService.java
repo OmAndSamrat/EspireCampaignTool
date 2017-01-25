@@ -35,6 +35,7 @@ public class CampaignService {
 	EntityManager em;
 	
 	private CampaignDao campaignDao;
+	
 	@PostConstruct
 	public void init(){
 		campaignDao = new CampaignDao(em);
@@ -74,19 +75,23 @@ public class CampaignService {
 		try {
 			Edm edm = campaignDao.getEdm(edmId);
 			BatchEmailJob batchJob =new EmailJobFactory(this).createEmailJobs(loginUser,edm,true);
-			EmailJobExecutor executor = new EmailJobExecutorImpl(new SendEmailEngine());
+			EmailJobExecutor executor = new EmailJobExecutorImpl(new SendEmailEngine(),this);
 			executor.sendBulkEmail(batchJob);
 		} catch (DBException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
+	@TransactionAttribute(value=TransactionAttributeType.SUPPORTS)
 	public Status getStatusByDesc(String statusDesc){
 		return campaignDao.getStatusByDesc(statusDesc);
 	}
 	
 	public CommunicationTracker createCommTracker (CommunicationTracker ct){
 		return campaignDao.createCommTracker(ct);
+	}
+	
+	public CommunicationTracker getCommTracker (Long ctId){
+		return campaignDao. getCommTracker( ctId);
 	}
 }

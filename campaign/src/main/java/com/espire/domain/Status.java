@@ -16,7 +16,6 @@ public class Status implements Serializable {
 	
 	private static final long serialVersionUID = 398786439749634684L;
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long statusID;
 	@Column(name="status")
 	private String statusDesc;

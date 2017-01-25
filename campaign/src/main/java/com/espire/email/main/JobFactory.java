@@ -29,7 +29,7 @@ public abstract class JobFactory {
 		readTemplate=matcher.replaceAll(emailJob.getName());
 		Pattern idPattern = Pattern.compile("%uniqueid%");
 		matcher = idPattern.matcher(readTemplate);
-		readTemplate=matcher.replaceAll(emailJob.getTrackingId());
+		readTemplate=matcher.replaceAll(emailJob.getTrackingId().toString());
 		emailJob.setEmailBody(readTemplate);
 	}
 
