@@ -79,6 +79,12 @@ public class Organization  implements Serializable{
 	public void setOrganisationRemark(String organisationRemark) {
 		this.organisationRemark = organisationRemark;
 	}
+	public String getOrganisationFirstName() {
+		return organisationFirstName;
+	}
+	public void setOrganisationFirstName(String organisationFirstName) {
+		this.organisationFirstName = organisationFirstName;
+	}
 	public Integer getSoftDelete() {
 		return softDelete;
 	}

@@ -23,6 +23,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 
 import org.apache.log4j.Logger;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartInput;
 
 import com.espire.campaign.camp.service.CampaignService;
 import com.espire.campaign.exception.DBException;
@@ -136,7 +137,7 @@ public class CampaignController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response listCampaignCommunication(@Context SecurityContext sc,@PathParam("id") Long campaignId, 
 			@QueryParam("index")Integer resultIndex,@QueryParam("count") Integer resultCount){
-		log.info(" CampaignController.createCampaign INVOKED BY " +sc.getUserPrincipal().getName());
+		log.info(" CampaignController.listCampaignCommunication INVOKED BY " +sc.getUserPrincipal().getName());
 		
 		List<Communication> communicationList;
 		try {
@@ -154,7 +155,7 @@ public class CampaignController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response deleteCampaignCommunication(@Context SecurityContext sc,@PathParam("id") Long campaignId, 
 			@PathParam("comId") Long communcationId){
-		log.info(" CampaignController.createCampaign INVOKED BY " +sc.getUserPrincipal().getName());
+		log.info(" CampaignController.deleteCampaignCommunication INVOKED BY " +sc.getUserPrincipal().getName());
 		
 		try {
 			Communication comm = new Communication();
@@ -168,22 +169,42 @@ public class CampaignController {
 	}
 	
 	@POST
-	@Path("/{id}/edm/{edmid}/try")
+	@Path("/{id}/edms/{edmid}/try")
 	@RolesAllowed({"IS"})
 	public Response tryCampaign(@Context SecurityContext sc,@PathParam("id") Long campaignId,@PathParam("edmid") Long edmId){
 		log.info(" CampaignController.tryCampaign INVOKED BY " +sc.getUserPrincipal().getName());
 		User loginUser = (User)sc.getUserPrincipal();
-		campaignService.runCampaign(loginUser,campaignId, edmId,true);
+		try{
+			campaignService.runCampaign(loginUser,campaignId, edmId,true);
+		}catch(IllegalArgumentException ie){
+			return Response.status(Status.BAD_REQUEST).build();
+		}
 		return Response.status(Status.OK).build();
 	}
 	
 	@POST
-	@Path("/{id}/edm/{edmid}/execute")
+	@Path("/{id}/edms/{edmid}/execute")
 	@RolesAllowed({"IS"})
 	public Response executeCampaign(@Context SecurityContext sc,@PathParam("id") Long campaignId,@PathParam("edmid") Long edmId){
-		log.info(" CampaignController.tryCampaign INVOKED BY " +sc.getUserPrincipal().getName());
+		log.info(" CampaignController.executeCampaign INVOKED BY " +sc.getUserPrincipal().getName());
 		User loginUser = (User)sc.getUserPrincipal();
-		campaignService.runCampaign(loginUser,campaignId, edmId,false);
+		try{
+			campaignService.runCampaign(loginUser,campaignId, edmId,false);
+		}catch(IllegalArgumentException ie){
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+		return Response.status(Status.OK).build();
+	}
+	
+	@POST
+	@Path("/{id}/edms")
+	@Consumes({MediaType.MULTIPART_FORM_DATA})
+	@RolesAllowed({"MARKETING"})
+	public Response createEdm(@Context SecurityContext sc,
+			MultipartInput input){
+		log.info(" CampaignController.createEdm INVOKED BY " +sc.getUserPrincipal().getName());
+		User loginUser = (User)sc.getUserPrincipal();
+		
 		return Response.status(Status.OK).build();
 	}
 	

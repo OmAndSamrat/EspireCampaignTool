@@ -73,9 +73,13 @@ public class CampaignService {
 	public void runCampaign(User loginUser,Long campaignId , Long edmId,Boolean trialMode){
 		try {
 			Edm edm = campaignDao.getEdm(edmId);
-			BatchEmailJob batchJob =new EmailJobFactory(this).createEmailJobs(loginUser,edm,trialMode);
-			EmailJobExecutor executor = new EmailJobExecutorImpl(new SendEmailEngine(),this);
-			executor.sendBulkEmail(batchJob);
+			if(edm.getCampaign().getCampaignID().equals(campaignId)){
+				BatchEmailJob batchJob =new EmailJobFactory(this).createEmailJobs(loginUser,edm,trialMode);
+				EmailJobExecutor executor = new EmailJobExecutorImpl(new SendEmailEngine(),this);
+				executor.sendBulkEmail(batchJob);
+			}else{
+				throw new IllegalArgumentException("EDM and campaign ids are not corelated");
+			}
 		} catch (DBException e) {
 			e.printStackTrace();
 		}
