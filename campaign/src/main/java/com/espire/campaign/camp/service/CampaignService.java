@@ -70,11 +70,10 @@ public class CampaignService {
 	}
 	
 	@Asynchronous
-	@TransactionAttribute(value=TransactionAttributeType.NOT_SUPPORTED)
 	public void runCampaign(User loginUser,Long campaignId , Long edmId,Boolean trialMode){
 		try {
 			Edm edm = campaignDao.getEdm(edmId);
-			BatchEmailJob batchJob =new EmailJobFactory(this).createEmailJobs(loginUser,edm,true);
+			BatchEmailJob batchJob =new EmailJobFactory(this).createEmailJobs(loginUser,edm,trialMode);
 			EmailJobExecutor executor = new EmailJobExecutorImpl(new SendEmailEngine(),this);
 			executor.sendBulkEmail(batchJob);
 		} catch (DBException e) {
@@ -82,7 +81,6 @@ public class CampaignService {
 		}
 	}
 	
-	@TransactionAttribute(value=TransactionAttributeType.SUPPORTS)
 	public Status getStatusByDesc(String statusDesc){
 		return campaignDao.getStatusByDesc(statusDesc);
 	}

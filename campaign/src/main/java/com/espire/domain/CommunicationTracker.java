@@ -1,6 +1,7 @@
 package com.espire.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,6 +37,8 @@ public class CommunicationTracker implements Serializable {
 	@ManyToOne
 	@JoinColumn(name ="EDMID")
 	Edm edm;
+	
+	private Date comDateTime = new Date();
 
 	public Long getCommunicationTrackerID() {
 		return communicationTrackerID;
@@ -75,6 +78,14 @@ public class CommunicationTracker implements Serializable {
 
 	public void setEdm(Edm edm) {
 		this.edm = edm;
+	}
+
+	public Date getComDateTime() {
+		return comDateTime;
+	}
+
+	public void setComDateTime(Date comDateTime) {
+		this.comDateTime = comDateTime;
 	}
 	
 	

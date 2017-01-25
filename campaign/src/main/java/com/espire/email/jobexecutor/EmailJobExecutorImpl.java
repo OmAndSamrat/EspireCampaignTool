@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 
 import com.espire.campaign.camp.service.CampaignService;
 import com.espire.domain.CommunicationTracker;
-import com.espire.domain.Status;
 import com.espire.email.configuration.Configuration;
 import com.espire.email.job.BatchEmailJob;
 import com.espire.email.job.EmailJob;
@@ -31,13 +30,11 @@ public class EmailJobExecutorImpl implements EmailJobExecutor {
 				doSend(job);
 				CommunicationTracker currentCt = campaignService.getCommTracker(job.getTrackingId());
 				CommunicationTracker newCt = new CommunicationTracker();
-				Status status = null;
-				status = campaignService.getStatusByDesc("SENT"); 
-				ct.setCommunication(comm);
-				ct.setEdm(edm);
-				ct.setUser(loginUser);
-				 /* COMMUNICATION TRACKER ID GENERATED AT THIS STEP WILL BE USED FOR CREATING TRACKING IDS*/
-				campaignService.createCommTracker(ct);
+				newCt.setStatus(campaignService.getStatusByDesc("SENT"));
+				newCt.setCommunication(currentCt.getCommunication());
+				newCt.setEdm(currentCt.getEdm());
+				newCt.setUser(currentCt.getUser());
+				campaignService.createCommTracker(newCt);
 			}catch(InterruptedException ie){
 				log.error(ie);
 			}

@@ -169,11 +169,21 @@ public class CampaignController {
 	
 	@POST
 	@Path("/{id}/edm/{edmid}/try")
-	@RolesAllowed({"MARKETING"})
+	@RolesAllowed({"IS"})
 	public Response tryCampaign(@Context SecurityContext sc,@PathParam("id") Long campaignId,@PathParam("edmid") Long edmId){
 		log.info(" CampaignController.tryCampaign INVOKED BY " +sc.getUserPrincipal().getName());
 		User loginUser = (User)sc.getUserPrincipal();
 		campaignService.runCampaign(loginUser,campaignId, edmId,true);
+		return Response.status(Status.OK).build();
+	}
+	
+	@POST
+	@Path("/{id}/edm/{edmid}/execute")
+	@RolesAllowed({"IS"})
+	public Response executeCampaign(@Context SecurityContext sc,@PathParam("id") Long campaignId,@PathParam("edmid") Long edmId){
+		log.info(" CampaignController.tryCampaign INVOKED BY " +sc.getUserPrincipal().getName());
+		User loginUser = (User)sc.getUserPrincipal();
+		campaignService.runCampaign(loginUser,campaignId, edmId,false);
 		return Response.status(Status.OK).build();
 	}
 	
