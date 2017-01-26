@@ -4,20 +4,21 @@ import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Edm implements Serializable{
 
 	private static final long serialVersionUID = 4864710301077709828L;
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long edmId;
+	
+	@JsonIgnore
 	private String edmHtml;
 	
 	@ManyToOne
@@ -25,8 +26,10 @@ public class Edm implements Serializable{
 	private Campaign campaign;
 	
 	private String subject;
+	@JsonIgnore
 	private Integer softDelete = 1;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="edm")
 	private Set<CommunicationTracker> communications;
 	

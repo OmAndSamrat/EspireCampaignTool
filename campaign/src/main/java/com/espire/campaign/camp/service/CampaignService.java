@@ -72,7 +72,7 @@ public class CampaignService {
 	@Asynchronous
 	public void runCampaign(User loginUser,Long campaignId , Long edmId,Boolean trialMode){
 		try {
-			Edm edm = campaignDao.getEdm(edmId);
+			Edm edm = campaignDao.getEdmById(edmId);
 			if(edm.getCampaign().getCampaignID().equals(campaignId)){
 				BatchEmailJob batchJob =new EmailJobFactory(this).createEmailJobs(loginUser,edm,trialMode);
 				EmailJobExecutor executor = new EmailJobExecutorImpl(new SendEmailEngine(),this);
@@ -96,4 +96,17 @@ public class CampaignService {
 	public CommunicationTracker getCommTracker (Long ctId){
 		return campaignDao. getCommTracker( ctId);
 	}
+	
+	public Edm createEdm(Edm edm){
+		return campaignDao.createEdm(edm);
+	}
+	
+	public Edm updateEdmHtml(Long edmId,String edmHtml){
+		return campaignDao.updateEdmHtml(edmId, edmHtml);
+	}
+	
+	public List<Edm> listEmds(){
+		return campaignDao.getEdms();
+	}
+	
 }

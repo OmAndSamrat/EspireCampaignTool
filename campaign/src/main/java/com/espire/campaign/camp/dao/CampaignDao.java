@@ -3,6 +3,7 @@ package com.espire.campaign.camp.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.TypedQuery;
 
 import com.espire.campaign.exception.DBException;
@@ -129,7 +130,7 @@ public class CampaignDao {
 		em.persist(dbCommunication);
 	}
 	
-	public Edm getEdm(Long edmId) throws DBException{
+	public Edm getEdmById(Long edmId) throws DBException{
 		if(edmId==null ){
 			throw new DBException("edmId id cannot be null");
 		}
@@ -148,6 +149,28 @@ public class CampaignDao {
 	}
 	public CommunicationTracker getCommTracker (Long ctId){
 		return em.find(CommunicationTracker.class, ctId);
+	}
+	
+	public Edm createEdm(Edm edm){
+
+		/*generation type increment is not possible in the EDM table*/
+		Long count = em.createQuery("select max(edm.edmId) from Edm edm",Long.class).getSingleResult();
+		Campaign camp = em.find(Campaign.class, edm.getCampaign().getCampaignID());
+		edm.setCampaign(camp);
+		edm.setEdmId(++count);
+		em.persist(edm);
+		return edm;
+	}
+	
+	public Edm updateEdmHtml(Long edmId,String edmHtml){
+		Edm dbEdm =em.find(Edm.class, edmId);
+		dbEdm.setEdmHtml(edmHtml);
+		return dbEdm;
+	}
+	
+	public List<Edm> getEdms() {
+		
+		return em.createQuery("select edm from Edm edm where edm.softDelete =1",Edm.class).getResultList();
 	}
 	
 }

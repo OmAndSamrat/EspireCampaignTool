@@ -1,8 +1,14 @@
 package com.espire.campaign.camp;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
@@ -23,12 +29,14 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 
 import org.apache.log4j.Logger;
-import org.jboss.resteasy.plugins.providers.multipart.MultipartInput;
+import org.jboss.resteasy.plugins.providers.multipart.InputPart;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import com.espire.campaign.camp.service.CampaignService;
 import com.espire.campaign.exception.DBException;
 import com.espire.domain.Campaign;
 import com.espire.domain.Communication;
+import com.espire.domain.Edm;
 import com.espire.domain.User;
 
 @Path("/campaigns")
@@ -196,16 +204,50 @@ public class CampaignController {
 		return Response.status(Status.OK).build();
 	}
 	
-	@POST
-	@Path("/{id}/edms")
-	@Consumes({MediaType.MULTIPART_FORM_DATA})
+	@PUT
+	@Path("/{id}/edms/{emdid}")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(MediaType.APPLICATION_JSON)
 	@RolesAllowed({"MARKETING"})
-	public Response createEdm(@Context SecurityContext sc,
-			MultipartInput input){
-		log.info(" CampaignController.createEdm INVOKED BY " +sc.getUserPrincipal().getName());
-		User loginUser = (User)sc.getUserPrincipal();
+	public Response uploadEdm(@Context SecurityContext sc,
+			MultipartFormDataInput  multipart ,@PathParam("edmid") Long edmId){
+		log.info(" CampaignController.uploadEdm INVOKED BY " +sc.getUserPrincipal().getName());
 		
+		Map<String, List<InputPart>> inputmap =  multipart.getFormDataMap();
+		List<InputPart> inputPartList = inputmap.get("file");
+		String data=null;
+		try {
+			for(InputPart ip : inputPartList){
+				InputStream inputStream = ip.getBody(InputStream.class,null);
+				BufferedReader buffer = new BufferedReader(new InputStreamReader(inputStream));
+				data =buffer.lines().collect(Collectors.joining("\n"));
+			}
+		} catch (IOException e) {
+			log.error(e);
+		}
+		campaignService.updateEdmHtml(edmId, data);
 		return Response.status(Status.OK).build();
 	}
 	
+	@POST
+	@Path("/{id}/edms")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@RolesAllowed({"MARKETING"})
+	public Response createEdm(@Context SecurityContext sc,
+			@Valid Edm edm){
+		log.info(" CampaignController.createEdm INVOKED BY " +sc.getUserPrincipal().getName());
+		
+		return Response.status(Status.OK).entity(campaignService.createEdm(edm)).build();
+	}
+	
+	@GET
+	@Path("/{id}/edms")
+	@Produces(MediaType.APPLICATION_JSON)
+	@RolesAllowed({"MARKETING"})
+	public Response getEdms(@Context SecurityContext sc){
+		log.info(" CampaignController.getEdms INVOKED BY " +sc.getUserPrincipal().getName());
+		
+		return Response.status(Status.OK).entity(campaignService.listEmds()).build();
+	}
 }
