@@ -15,7 +15,7 @@ public class ApplicationSessionListner implements HttpSessionListener {
 
 	@Override
 	public void sessionCreated(HttpSessionEvent se) {
-		// TODO Auto-generated method stub
+		// nothing required here 
 
 	}
 
