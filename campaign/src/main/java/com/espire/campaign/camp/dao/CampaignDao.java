@@ -3,7 +3,6 @@ package com.espire.campaign.camp.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.LockModeType;
 import javax.persistence.TypedQuery;
 
 import com.espire.campaign.exception.DBException;
