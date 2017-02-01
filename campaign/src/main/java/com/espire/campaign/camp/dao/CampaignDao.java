@@ -161,9 +161,10 @@ public class CampaignDao {
 		return edm;
 	}
 	
-	public Edm updateEdmHtml(Long edmId,String edmHtml){
+	public Edm updateEdmHtml(Long edmId,String edmHtml,String subject){
 		Edm dbEdm =em.find(Edm.class, edmId);
 		dbEdm.setEdmHtml(edmHtml);
+		dbEdm.setSubject(subject);
 		return dbEdm;
 	}
 	

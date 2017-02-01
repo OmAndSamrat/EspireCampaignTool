@@ -101,12 +101,17 @@ public class CampaignService {
 		return campaignDao.createEdm(edm);
 	}
 	
-	public Edm updateEdmHtml(Long edmId,String edmHtml){
-		return campaignDao.updateEdmHtml(edmId, edmHtml);
+	public Edm updateEdmHtml(Long edmId,String edmHtml, String subject){
+		return campaignDao.updateEdmHtml(edmId, edmHtml, subject);
 	}
 	
 	public List<Edm> listEmds(){
 		return campaignDao.getEdms();
 	}
+	
+	public Edm getEdm(Long edmId) throws DBException{
+		return campaignDao.getEdmById(edmId);
+	}
+	
 	
 }

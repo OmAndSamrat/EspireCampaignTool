@@ -187,7 +187,7 @@ public class CampaignController {
 		}catch(IllegalArgumentException ie){
 			return Response.status(Status.BAD_REQUEST).build();
 		}
-		return Response.status(Status.OK).build();
+		return Response.status(Status.OK).entity("Started").build();
 	}
 	
 	@POST
@@ -205,7 +205,7 @@ public class CampaignController {
 	}
 	
 	@PUT
-	@Path("/{id}/edms/{emdid}")
+	@Path("/{id}/edms/{edmid}")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
 	@RolesAllowed({"MARKETING"})
@@ -214,22 +214,71 @@ public class CampaignController {
 		log.info(" CampaignController.uploadEdm INVOKED BY " +sc.getUserPrincipal().getName());
 		
 		Map<String, List<InputPart>> inputmap =  multipart.getFormDataMap();
-		List<InputPart> inputPartList = inputmap.get("file");
-		String data=null;
+		List<InputPart> inputPartList = inputmap.get("uploadFile");
+		List<InputPart> subjectInputPartList = inputmap.get("subject");
+		
+		String fileData=null;
+		String subjectData=null;
 		try {
 			for(InputPart ip : inputPartList){
 				InputStream inputStream = ip.getBody(InputStream.class,null);
 				BufferedReader buffer = new BufferedReader(new InputStreamReader(inputStream));
-				data =buffer.lines().collect(Collectors.joining("\n"));
+				fileData =buffer.lines().collect(Collectors.joining("\n"));
 			}
+			for(InputPart ip : subjectInputPartList){
+				InputStream inputStream = ip.getBody(InputStream.class,null);
+				BufferedReader buffer = new BufferedReader(new InputStreamReader(inputStream));
+				subjectData =buffer.lines().collect(Collectors.joining("\n"));
+			}
+			
 		} catch (IOException e) {
 			log.error(e);
 		}
-		campaignService.updateEdmHtml(edmId, data);
-		return Response.status(Status.OK).build();
+		campaignService.updateEdmHtml(edmId, fileData, subjectData);
+		return Response.status(Status.OK).entity(edmId).build();
 	}
 	
 	@POST
+	@Path("/{id}/edms")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(MediaType.APPLICATION_JSON)
+	@RolesAllowed({"MARKETING"})
+	public Response createEdm(@Context SecurityContext sc,
+			MultipartFormDataInput  multipart ,@PathParam("id") Long campaignId){
+		log.info(" CampaignController.uploadEdm INVOKED BY " +sc.getUserPrincipal().getName());
+		
+		Map<String, List<InputPart>> inputmap =  multipart.getFormDataMap();
+		List<InputPart> inputPartList = inputmap.get("uploadFile");
+		List<InputPart> subjectInputPartList = inputmap.get("subject");
+		
+		String fileData=null;
+		String subjectData=null;
+		try {
+			for(InputPart ip : inputPartList){
+				InputStream inputStream = ip.getBody(InputStream.class,null);
+				BufferedReader buffer = new BufferedReader(new InputStreamReader(inputStream));
+				fileData =buffer.lines().collect(Collectors.joining("\n"));
+			}
+			for(InputPart ip : subjectInputPartList){
+				InputStream inputStream = ip.getBody(InputStream.class,null);
+				BufferedReader buffer = new BufferedReader(new InputStreamReader(inputStream));
+				subjectData =buffer.lines().collect(Collectors.joining("\n"));
+			}
+			
+		} catch (IOException e) {
+			log.error(e);
+		}
+		Edm edm = new Edm();
+		Campaign camp = new Campaign();
+		camp.setCampaignID(campaignId);
+		edm.setCampaign(camp);
+		edm.setSubject(subjectData);
+		edm.setEdmHtml(fileData);
+		edm = campaignService.createEdm(edm);
+		return Response.status(Status.OK).entity(edm.getEdmId()).build();
+	}
+	
+	/*@POST
 	@Path("/{id}/edms")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -237,9 +286,8 @@ public class CampaignController {
 	public Response createEdm(@Context SecurityContext sc,
 			@Valid Edm edm){
 		log.info(" CampaignController.createEdm INVOKED BY " +sc.getUserPrincipal().getName());
-		
 		return Response.status(Status.OK).entity(campaignService.createEdm(edm)).build();
-	}
+	}*/
 	
 	@GET
 	@Path("/{id}/edms")
@@ -249,5 +297,21 @@ public class CampaignController {
 		log.info(" CampaignController.getEdms INVOKED BY " +sc.getUserPrincipal().getName());
 		
 		return Response.status(Status.OK).entity(campaignService.listEmds()).build();
+	}
+	
+	@GET
+	@Path("/edms/{edmid}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@RolesAllowed({"MARKETING"})
+	public Response getEdm(@Context SecurityContext sc, @PathParam("edmid") Long edmId) {
+		log.info(" CampaignController.getEdms INVOKED BY " +sc.getUserPrincipal().getName());
+		Edm edm = null;
+		try {
+			edm =campaignService.getEdm(edmId);
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return Response.status(Status.OK).entity(edm).build();
 	}
 }
