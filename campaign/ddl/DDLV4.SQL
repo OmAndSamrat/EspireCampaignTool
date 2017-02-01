@@ -24,9 +24,7 @@ CREATE TABLE `Contact`
   `PrimaryPhone` Varchar(20),
   `SecondaryPhone` Varchar(20),
   `Trial` Bool,
-  PRIMARY KEY (`ContactID`),
-  PRIMARY KEY (`ContactID`),
- UNIQUE `ContactID` (`ContactID`)
+  PRIMARY KEY (`ContactID`)
 )
 ;
 
@@ -135,9 +133,7 @@ CREATE TABLE `Communication`
   `ContactID` Int,
   `SoftDelete` Bool,
   `CommunicationID` Int NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`CommunicationID`),
-  PRIMARY KEY (`CommunicationID`),
- UNIQUE `CommunicationID` (`CommunicationID`)
+  PRIMARY KEY (`CommunicationID`)
 )
 ;
 
