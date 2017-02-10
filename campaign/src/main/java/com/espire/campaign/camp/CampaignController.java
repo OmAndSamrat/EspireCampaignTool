@@ -1,6 +1,8 @@
 package com.espire.campaign.camp;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -12,6 +14,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -106,7 +109,7 @@ public class CampaignController {
 		}catch(DBException dbe){
 			return Response.status(Status.NOT_FOUND).build();
 		}
-		return  Response.status(Status.NO_CONTENT).build();
+		return  Response.status(Status.OK).entity(camp).build();
 	}
 
 	@POST
@@ -170,10 +173,10 @@ public class CampaignController {
 			comm.setCommunicationID(communcationId);
 			campaignService.deleteCommuncation(campaignId,comm);
 		} catch (DBException e) {
-			return Response.status(Status.BAD_REQUEST).build();
+			return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
 		}
 		
-		return Response.status(Status.NO_CONTENT).build();
+		return Response.status(Status.NO_CONTENT).entity("Communication Deleted.").build();
 	}
 	
 	@POST
@@ -187,7 +190,7 @@ public class CampaignController {
 		}catch(IllegalArgumentException ie){
 			return Response.status(Status.BAD_REQUEST).build();
 		}
-		return Response.status(Status.OK).entity("Started").build();
+		return Response.status(Status.OK).entity(loginUser).build();
 	}
 	
 	@POST

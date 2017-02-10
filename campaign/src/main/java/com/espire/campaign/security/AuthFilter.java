@@ -10,16 +10,19 @@ import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.PreMatching;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
 
 import org.apache.log4j.Logger;
 
 import com.espire.campaign.login.service.LoginService;
+import com.espire.config.ValidateAuth;
 import com.espire.domain.User;
 
 
 @Provider
 @PreMatching
+@ValidateAuth
 public class AuthFilter implements ContainerRequestFilter {
 	/**
 	 * Apply the filter : check input request, validate or not with user auth
@@ -41,7 +44,7 @@ public class AuthFilter implements ContainerRequestFilter {
 	public void filter(ContainerRequestContext containerRequest) throws WebApplicationException {
 
 		User user;
-
+		UriInfo uriInfo  = containerRequest.getUriInfo();
 		//Get the authentication passed in HTTP headers parameters
 		String auth = containerRequest.getHeaderString("authorization");
 

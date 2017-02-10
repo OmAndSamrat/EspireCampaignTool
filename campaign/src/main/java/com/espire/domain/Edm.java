@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,6 +18,7 @@ public class Edm implements Serializable{
 
 	private static final long serialVersionUID = 4864710301077709828L;
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long edmId;
 	
 	@JsonIgnore
@@ -32,6 +35,10 @@ public class Edm implements Serializable{
 	@JsonIgnore
 	@OneToMany(mappedBy="edm")
 	private Set<CommunicationTracker> communications;
+	
+	@ManyToOne
+	@JoinColumn(name ="StatusID")
+	private Status status;
 	
 	public Long getEdmId() {
 		return edmId;
@@ -68,5 +75,11 @@ public class Edm implements Serializable{
 	}
 	public void setSoftDelete(Integer softDelete) {
 		this.softDelete = softDelete;
+	}
+	public Status getStatus() {
+		return status;
+	}
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 }

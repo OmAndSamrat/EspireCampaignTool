@@ -2,6 +2,7 @@ package com.espire.campaign.contact.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -10,6 +11,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import com.espire.domain.Communication;
 import com.espire.domain.Contact;
 import com.espire.domain.Designation;
 import com.espire.domain.Organization;
@@ -95,5 +97,24 @@ public class ContactDao {
 		}
 		return contactQuery.getResultList();
 	}
+	public List<Contact> searchCampaignNonAssignedContacts(String firstName,String lastName,
+			String email,Long designationId,Long orgId,Long designationGrpId,String gender,
+			Integer index,Integer count, Long campaignId){
+		List<Contact> nonAssignedContacts = null;
+		List<Contact> contacts = this.searchContacts(firstName, lastName, email, designationId, orgId, designationGrpId, gender, index, count);
+		TypedQuery<Communication> communicationQuery = em.createQuery("select com from Communication com "
+				+"where com.campaign.campaignID = :campaignId and com.softDelete=1",Communication.class);
+			communicationQuery.setParameter("campaignId", campaignId);
+			List<Communication> communications = communicationQuery.getResultList();
+			if(communications!=null && communications.size()>0) {
+				List<Long> assignedContacts = communications.stream().map((communication)->communication.getContact().getContactID()).collect(Collectors.toList());
+				nonAssignedContacts = contacts.stream().filter((contact) ->  !(assignedContacts.contains(contact.getContactID())) ).collect(Collectors.toList());
+			} else {
+				nonAssignedContacts = contacts;
+			}
+		return nonAssignedContacts;
+		
+	}
+	
 	
 }

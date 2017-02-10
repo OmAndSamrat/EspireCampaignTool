@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 
 import com.espire.domain.Edm;
 import com.espire.domain.User;
+import com.espire.email.configuration.Configuration;
 import com.espire.email.job.BatchEmailJob;
 import com.espire.email.job.EmailJob;
 
@@ -30,6 +31,15 @@ public abstract class JobFactory {
 		Pattern idPattern = Pattern.compile("%uniqueid%");
 		matcher = idPattern.matcher(readTemplate);
 		readTemplate=matcher.replaceAll(emailJob.getTrackingId().toString());
+		//Set Micro site url in all clickable url
+		Pattern baseUrl = Pattern.compile("%baseUrl%");
+		matcher = baseUrl.matcher(readTemplate);
+		readTemplate=matcher.replaceAll(Configuration.getProperty("baseurl"));
+		//Set communication tracker Id in all url
+		Pattern coomTrackerId = Pattern.compile("%communicationtrackerId%");
+		matcher = coomTrackerId.matcher(readTemplate);
+		readTemplate=matcher.replaceAll(emailJob.getTrackingId().toString());
+		System.out.println(readTemplate);
 		emailJob.setEmailBody(readTemplate);
 	}
 

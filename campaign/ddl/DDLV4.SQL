@@ -1,10 +1,4 @@
-﻿/*
-Created: 02-01-2017
-Modified: 01-02-2017
-Model: Sales Campaign Tracker
-Database: MySQL 5.6
-*/
-
+use campaignv2;
 
 -- Create tables section -------------------------------------------------
 
@@ -153,7 +147,7 @@ CREATE TABLE `EDM`
   `SoftDelete` Bool,
   `Subject` Varchar(500),
   `StatusID` Int,
-  PRIMARY KEY (`EDMID`)
+  PRIMARY KEY (`EDMID`) 
 )
 ;
 
@@ -220,7 +214,8 @@ CREATE TABLE `CommuncationTracker`
   `CommunicationID` Int,
   `UserID` Int,
   `EDMID` Int,
-  `CommunicationTrackerID` Int NOT NULL
+  `CommunicationTrackerID` Int NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`CommunicationTrackerID`)
 )
 ;
 
@@ -236,8 +231,7 @@ CREATE INDEX `IX_Relationship17` ON `CommuncationTracker` (`UserID`)
 CREATE INDEX `IX_Relationship23` ON `CommuncationTracker` (`EDMID`)
 ;
 
-ALTER TABLE `CommuncationTracker` ADD  PRIMARY KEY (`CommunicationTrackerID`)
-;
+
 
 -- Table Status
 

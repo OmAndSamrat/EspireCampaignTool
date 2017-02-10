@@ -1,0 +1,84 @@
+2017-02-05 14:33:26 DEBUG logging:24 - Logging Provider: org.jboss.logging.Log4jLoggerProvider
+2017-02-05 14:33:26 DEBUG i18n:58 - RESTEASY002330: Unable to retrieve config: expandEntityReferences defaults to false
+2017-02-05 14:33:26 DEBUG i18n:67 - RESTEASY002335: Unable to retrieve config: enableSecureProcessingFeature defaults to true
+2017-02-05 14:33:26 DEBUG i18n:76 - RESTEASY002325: Unable to retrieve config: disableDTDs defaults to true
+2017-02-05 14:33:26 DEBUG i18n:58 - RESTEASY002330: Unable to retrieve config: expandEntityReferences defaults to false
+2017-02-05 14:33:26 DEBUG i18n:67 - RESTEASY002335: Unable to retrieve config: enableSecureProcessingFeature defaults to true
+2017-02-05 14:33:26 DEBUG i18n:76 - RESTEASY002325: Unable to retrieve config: disableDTDs defaults to true
+2017-02-06 09:35:21 DEBUG logging:24 - Logging Provider: org.jboss.logging.Log4jLoggerProvider
+2017-02-06 09:35:21 DEBUG i18n:58 - RESTEASY002330: Unable to retrieve config: expandEntityReferences defaults to false
+2017-02-06 09:35:21 DEBUG i18n:67 - RESTEASY002335: Unable to retrieve config: enableSecureProcessingFeature defaults to true
+2017-02-06 09:35:21 DEBUG i18n:76 - RESTEASY002325: Unable to retrieve config: disableDTDs defaults to true
+2017-02-06 09:35:21 DEBUG i18n:58 - RESTEASY002330: Unable to retrieve config: expandEntityReferences defaults to false
+2017-02-06 09:35:21 DEBUG i18n:67 - RESTEASY002335: Unable to retrieve config: enableSecureProcessingFeature defaults to true
+2017-02-06 09:35:21 DEBUG i18n:76 - RESTEASY002325: Unable to retrieve config: disableDTDs defaults to true
+2017-02-06 09:49:09 DEBUG logging:24 - Logging Provider: org.jboss.logging.Log4jLoggerProvider
+2017-02-06 09:49:09 DEBUG i18n:58 - RESTEASY002330: Unable to retrieve config: expandEntityReferences defaults to false
+2017-02-06 09:49:09 DEBUG i18n:67 - RESTEASY002335: Unable to retrieve config: enableSecureProcessingFeature defaults to true
+2017-02-06 09:49:09 DEBUG i18n:76 - RESTEASY002325: Unable to retrieve config: disableDTDs defaults to true
+2017-02-06 09:49:09 DEBUG i18n:58 - RESTEASY002330: Unable to retrieve config: expandEntityReferences defaults to false
+2017-02-06 09:49:09 DEBUG i18n:67 - RESTEASY002335: Unable to retrieve config: enableSecureProcessingFeature defaults to true
+2017-02-06 09:49:09 DEBUG i18n:76 - RESTEASY002325: Unable to retrieve config: disableDTDs defaults to true
+2017-02-06 09:49:55 DEBUG logging:24 - Logging Provider: org.jboss.logging.Log4jLoggerProvider
+2017-02-06 09:49:55 DEBUG i18n:58 - RESTEASY002330: Unable to retrieve config: expandEntityReferences defaults to false
+2017-02-06 09:49:55 DEBUG i18n:67 - RESTEASY002335: Unable to retrieve config: enableSecureProcessingFeature defaults to true
+2017-02-06 09:49:55 DEBUG i18n:76 - RESTEASY002325: Unable to retrieve config: disableDTDs defaults to true
+2017-02-06 09:49:55 DEBUG i18n:58 - RESTEASY002330: Unable to retrieve config: expandEntityReferences defaults to false
+2017-02-06 09:49:55 DEBUG i18n:67 - RESTEASY002335: Unable to retrieve config: enableSecureProcessingFeature defaults to true
+2017-02-06 09:49:55 DEBUG i18n:76 - RESTEASY002325: Unable to retrieve config: disableDTDs defaults to true
+2017-02-06 09:50:06 DEBUG logging:24 - Logging Provider: org.jboss.logging.Log4jLoggerProvider
+2017-02-06 09:50:06 DEBUG i18n:58 - RESTEASY002330: Unable to retrieve config: expandEntityReferences defaults to false
+2017-02-06 09:50:06 DEBUG i18n:67 - RESTEASY002335: Unable to retrieve config: enableSecureProcessingFeature defaults to true
+2017-02-06 09:50:06 DEBUG i18n:76 - RESTEASY002325: Unable to retrieve config: disableDTDs defaults to true
+2017-02-06 09:50:06 DEBUG i18n:58 - RESTEASY002330: Unable to retrieve config: expandEntityReferences defaults to false
+2017-02-06 09:50:06 DEBUG i18n:67 - RESTEASY002335: Unable to retrieve config: enableSecureProcessingFeature defaults to true
+2017-02-06 09:50:06 DEBUG i18n:76 - RESTEASY002325: Unable to retrieve config: disableDTDs defaults to true
+2017-02-06 09:50:38 DEBUG logging:24 - Logging Provider: org.jboss.logging.Log4jLoggerProvider
+2017-02-06 09:50:38 DEBUG i18n:58 - RESTEASY002330: Unable to retrieve config: expandEntityReferences defaults to false
+2017-02-06 09:50:38 DEBUG i18n:67 - RESTEASY002335: Unable to retrieve config: enableSecureProcessingFeature defaults to true
+2017-02-06 09:50:38 DEBUG i18n:76 - RESTEASY002325: Unable to retrieve config: disableDTDs defaults to true
+2017-02-06 09:50:38 DEBUG i18n:58 - RESTEASY002330: Unable to retrieve config: expandEntityReferences defaults to false
+2017-02-06 09:50:38 DEBUG i18n:67 - RESTEASY002335: Unable to retrieve config: enableSecureProcessingFeature defaults to true
+2017-02-06 09:50:38 DEBUG i18n:76 - RESTEASY002325: Unable to retrieve config: disableDTDs defaults to true
+2017-02-06 09:51:17 DEBUG logging:24 - Logging Provider: org.jboss.logging.Log4jLoggerProvider
+2017-02-06 09:51:17 DEBUG i18n:58 - RESTEASY002330: Unable to retrieve config: expandEntityReferences defaults to false
+2017-02-06 09:51:17 DEBUG i18n:67 - RESTEASY002335: Unable to retrieve config: enableSecureProcessingFeature defaults to true
+2017-02-06 09:51:17 DEBUG i18n:76 - RESTEASY002325: Unable to retrieve config: disableDTDs defaults to true
+2017-02-06 09:51:17 DEBUG i18n:58 - RESTEASY002330: Unable to retrieve config: expandEntityReferences defaults to false
+2017-02-06 09:51:17 DEBUG i18n:67 - RESTEASY002335: Unable to retrieve config: enableSecureProcessingFeature defaults to true
+2017-02-06 09:51:17 DEBUG i18n:76 - RESTEASY002325: Unable to retrieve config: disableDTDs defaults to true
+2017-02-06 09:51:29 DEBUG logging:24 - Logging Provider: org.jboss.logging.Log4jLoggerProvider
+2017-02-06 09:51:29 DEBUG i18n:58 - RESTEASY002330: Unable to retrieve config: expandEntityReferences defaults to false
+2017-02-06 09:51:29 DEBUG i18n:67 - RESTEASY002335: Unable to retrieve config: enableSecureProcessingFeature defaults to true
+2017-02-06 09:51:29 DEBUG i18n:76 - RESTEASY002325: Unable to retrieve config: disableDTDs defaults to true
+2017-02-06 09:51:29 DEBUG i18n:58 - RESTEASY002330: Unable to retrieve config: expandEntityReferences defaults to false
+2017-02-06 09:51:29 DEBUG i18n:67 - RESTEASY002335: Unable to retrieve config: enableSecureProcessingFeature defaults to true
+2017-02-06 09:51:29 DEBUG i18n:76 - RESTEASY002325: Unable to retrieve config: disableDTDs defaults to true
+2017-02-06 10:07:40 DEBUG logging:24 - Logging Provider: org.jboss.logging.Log4jLoggerProvider
+2017-02-06 10:07:40 DEBUG i18n:58 - RESTEASY002330: Unable to retrieve config: expandEntityReferences defaults to false
+2017-02-06 10:07:40 DEBUG i18n:67 - RESTEASY002335: Unable to retrieve config: enableSecureProcessingFeature defaults to true
+2017-02-06 10:07:40 DEBUG i18n:76 - RESTEASY002325: Unable to retrieve config: disableDTDs defaults to true
+2017-02-06 10:07:40 DEBUG i18n:58 - RESTEASY002330: Unable to retrieve config: expandEntityReferences defaults to false
+2017-02-06 10:07:40 DEBUG i18n:67 - RESTEASY002335: Unable to retrieve config: enableSecureProcessingFeature defaults to true
+2017-02-06 10:07:40 DEBUG i18n:76 - RESTEASY002325: Unable to retrieve config: disableDTDs defaults to true
+2017-02-06 10:13:14 DEBUG logging:24 - Logging Provider: org.jboss.logging.Log4jLoggerProvider
+2017-02-06 10:13:14 DEBUG i18n:58 - RESTEASY002330: Unable to retrieve config: expandEntityReferences defaults to false
+2017-02-06 10:13:14 DEBUG i18n:67 - RESTEASY002335: Unable to retrieve config: enableSecureProcessingFeature defaults to true
+2017-02-06 10:13:14 DEBUG i18n:76 - RESTEASY002325: Unable to retrieve config: disableDTDs defaults to true
+2017-02-06 10:13:14 DEBUG i18n:58 - RESTEASY002330: Unable to retrieve config: expandEntityReferences defaults to false
+2017-02-06 10:13:14 DEBUG i18n:67 - RESTEASY002335: Unable to retrieve config: enableSecureProcessingFeature defaults to true
+2017-02-06 10:13:14 DEBUG i18n:76 - RESTEASY002325: Unable to retrieve config: disableDTDs defaults to true
+2017-02-06 10:13:41 DEBUG logging:24 - Logging Provider: org.jboss.logging.Log4jLoggerProvider
+2017-02-06 10:13:41 DEBUG i18n:58 - RESTEASY002330: Unable to retrieve config: expandEntityReferences defaults to false
+2017-02-06 10:13:41 DEBUG i18n:67 - RESTEASY002335: Unable to retrieve config: enableSecureProcessingFeature defaults to true
+2017-02-06 10:13:41 DEBUG i18n:76 - RESTEASY002325: Unable to retrieve config: disableDTDs defaults to true
+2017-02-06 10:13:41 DEBUG i18n:58 - RESTEASY002330: Unable to retrieve config: expandEntityReferences defaults to false
+2017-02-06 10:13:41 DEBUG i18n:67 - RESTEASY002335: Unable to retrieve config: enableSecureProcessingFeature defaults to true
+2017-02-06 10:13:41 DEBUG i18n:76 - RESTEASY002325: Unable to retrieve config: disableDTDs defaults to true
+2017-02-06 10:14:10 DEBUG logging:24 - Logging Provider: org.jboss.logging.Log4jLoggerProvider
+2017-02-06 10:14:10 DEBUG i18n:58 - RESTEASY002330: Unable to retrieve config: expandEntityReferences defaults to false
+2017-02-06 10:14:10 DEBUG i18n:67 - RESTEASY002335: Unable to retrieve config: enableSecureProcessingFeature defaults to true
+2017-02-06 10:14:10 DEBUG i18n:76 - RESTEASY002325: Unable to retrieve config: disableDTDs defaults to true
+2017-02-06 10:14:10 DEBUG i18n:58 - RESTEASY002330: Unable to retrieve config: expandEntityReferences defaults to false
+2017-02-06 10:14:10 DEBUG i18n:67 - RESTEASY002335: Unable to retrieve config: enableSecureProcessingFeature defaults to true
+2017-02-06 10:14:10 DEBUG i18n:76 - RESTEASY002325: Unable to retrieve config: disableDTDs defaults to true
