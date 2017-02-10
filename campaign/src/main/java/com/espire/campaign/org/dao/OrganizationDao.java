@@ -1,11 +1,17 @@
 package com.espire.campaign.org.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import com.espire.campaign.exception.DBException;
+import com.espire.domain.Contact;
 import com.espire.domain.Domain;
 import com.espire.domain.Geography;
 import com.espire.domain.Organization;
@@ -77,6 +83,34 @@ public class OrganizationDao {
 		else{
 			throw new DBException(" Organization doesnot exist for "+orgId);
 		}
+	}
+	
+	public List<Organization> searchOrganization(String orgName, Long domainId, Long geoId) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Organization> cq = cb.createQuery(Organization.class);
+		Root<Organization> org = cq.from(Organization.class);
+		List<Predicate> predicates = new ArrayList<Predicate>();
+		
+		if (orgName != null) {
+	        predicates.add(
+	                cb.like(org.get("organisation"), '%'+orgName+'%'));
+	    }
+		if (domainId != null) {
+	        predicates.add(
+	                cb.equal(org.get("domain").get("domainID"), domainId));
+	    }
+		if (geoId != null) {
+	        predicates.add(
+	                cb.equal(org.get("geography").get("geographyID"), geoId));
+	    }
+		 predicates.add(
+	                cb.equal(org.get("softDelete"), 1));
+		cq.select(org)
+        .where(predicates.toArray(new Predicate[]{}));
+		TypedQuery<Organization> contactQuery = em.createQuery(cq);
+		
+		return contactQuery.getResultList();
+	
 	}
 
 }

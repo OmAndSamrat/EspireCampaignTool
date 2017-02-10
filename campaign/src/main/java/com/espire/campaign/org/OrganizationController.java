@@ -49,6 +49,16 @@ public class OrganizationController {
 		}
 		return Response.status(Status.OK).entity(orgService.listOrganzations(resultIndex, resultCount)).build();
 	}
+	@Path("/search")
+	@GET
+	@RolesAllowed({"IS","MARKETING"})
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response searchOrganzations(@Context SecurityContext sc, @QueryParam("orgName")String orgName,@QueryParam("domain")Long domain,
+			@QueryParam("geo") Long geo){
+		log.info("com.espire.campaign.org.OrganizationController.searchOrganization INVOKED BY" +sc.getUserPrincipal().getName());
+		log.info("com.espire.campaign.org.OrganizationController.searchOrganization");
+		return Response.status(Status.OK).entity(orgService.searchOrganzations(orgName, domain, geo)).build();
+	}
 	
 	@POST
 	@RolesAllowed({"IS","MARKETING"})

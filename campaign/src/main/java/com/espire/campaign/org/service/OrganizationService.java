@@ -34,6 +34,10 @@ public class OrganizationService {
 		return orgDao.listOrganzations(index, count);
 	}
 	
+	public List<Organization> searchOrganzations(String orgName, Long domainId, Long geoId){
+		return orgDao.searchOrganization(orgName, domainId, geoId);
+	}
+	
 	public Organization createOrganization(Organization org){
 		return orgDao.createOrganization(org);
 	}

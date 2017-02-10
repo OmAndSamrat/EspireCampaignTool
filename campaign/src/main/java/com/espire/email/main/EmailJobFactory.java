@@ -33,9 +33,11 @@ public class EmailJobFactory extends JobFactory {
 		
 		Campaign campaign = edm.getCampaign();
 		if(trial){
-			campaign.setStatus(campaignService.getStatusByDesc("TEST"));
+			//campaign.setStatus(campaignService.getStatusByDesc("TEST"));
+			edm.setStatus(campaignService.getStatusByDesc("TEST"));
 		}else{
-			campaign.setStatus(campaignService.getStatusByDesc("EXECUTED"));
+			//campaign.setStatus(campaignService.getStatusByDesc("EXECUTED"));
+			edm.setStatus(campaignService.getStatusByDesc("EXECUTED"));
 		}
 
 		for(Communication comm : edm.getCampaign().getCommunicationList()){

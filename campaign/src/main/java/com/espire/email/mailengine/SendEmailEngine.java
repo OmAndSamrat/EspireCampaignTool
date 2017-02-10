@@ -36,7 +36,8 @@ public class SendEmailEngine implements MailEngine {
 				message.addHeader("format", "flowed");
 				message.addHeader("Content-Transfer-Encoding", "8bit");
 					
-				message.setFrom(new InternetAddress(Configuration.getProperty("mail.smtp.user")));
+				message.setFrom(new InternetAddress(Configuration.getProperty("mail.smtp.from")));
+				message.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(Configuration.getProperty("mail.smtp.from")));
 				message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(emailJob.getToAddress()));
 				message.setSubject(emailJob.getSubject());
 				message.setContent(emailJob.getEmailBody(), "text/HTML; charset=UTF-8");

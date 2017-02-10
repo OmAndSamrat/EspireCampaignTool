@@ -14,6 +14,7 @@ import javax.persistence.PersistenceContext;
 
 import com.espire.campaign.camp.dao.CampaignDao;
 import com.espire.campaign.exception.DBException;
+import com.espire.campaign.htmlparser.HtmlParser;
 import com.espire.domain.Campaign;
 import com.espire.domain.Communication;
 import com.espire.domain.CommunicationTracker;
@@ -97,19 +98,31 @@ public class CampaignService {
 		return campaignDao. getCommTracker( ctId);
 	}
 	
-	public Edm createEdm(Edm edm){
-		return campaignDao.createEdm(edm);
+	public List<CommunicationTracker> getProgressReport(Long edmId) {
+		return campaignDao.getProgressReport(edmId);
+	}
+	
+	public String parseUploadedHtml(String html, Long edmId) {
+		HtmlParser htmlParse = new HtmlParser(this.campaignDao, edmId);
+		return htmlParse.parsedHtml(html);
+	}
+	
+	public Edm createEdm(Edm edm) {
+		edm = campaignDao.createEdm(edm);
+		edm = updateEdmHtml(edm.getEdmId(),edm.getEdmHtml(),edm.getSubject());
+		return edm;
 	}
 	
 	public Edm updateEdmHtml(Long edmId,String edmHtml, String subject){
+		edmHtml = parseUploadedHtml(edmHtml,edmId);
 		return campaignDao.updateEdmHtml(edmId, edmHtml, subject);
 	}
 	
-	public List<Edm> listEmds(){
+	public List<Edm> listEmds() {
 		return campaignDao.getEdms();
 	}
 	
-	public Edm getEdm(Long edmId) throws DBException{
+	public Edm getEdm(Long edmId) throws DBException {
 		return campaignDao.getEdmById(edmId);
 	}
 	

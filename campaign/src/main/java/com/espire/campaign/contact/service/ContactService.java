@@ -44,5 +44,13 @@ public class ContactService {
 				 email, designationId, orgId, designationGrpId,gender,
 				 resultIndex, resultCount);
 	}
+	
+	public List<Contact> searchCampaignNonAssignedContacts(String firstName,String lastName,
+			String email,Long designationId,Long orgId,Long designationGrpId,String gender,
+			Integer resultIndex,Integer resultCount, Long campaignId){
+		return contactDao.searchCampaignNonAssignedContacts( firstName, lastName,
+				 email, designationId, orgId, designationGrpId,gender,
+				 resultIndex, resultCount, campaignId);
+	}
 
 }

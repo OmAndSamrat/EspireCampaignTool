@@ -11,6 +11,8 @@ import com.espire.domain.Communication;
 import com.espire.domain.CommunicationTracker;
 import com.espire.domain.Contact;
 import com.espire.domain.Edm;
+import com.espire.domain.EdmEvent;
+import com.espire.domain.Event;
 import com.espire.domain.Status;
 
 public class CampaignDao {
@@ -118,7 +120,7 @@ public class CampaignDao {
 		
 		Communication dbCommunication = em.find(Communication.class, communication.getCommunicationID());
 		
-		if(dbCommunication==null || dbCommunication.getCampaign().getCampaignID()!=campaignId){
+		if(dbCommunication==null || !dbCommunication.getCampaign().getCampaignID().equals(campaignId)){
 			throw new DBException("Communication not found");
 		}
 		if("DRAFT"!=dbCommunication.getCampaign().getStatus().getStatusDesc()){
@@ -150,15 +152,31 @@ public class CampaignDao {
 		return em.find(CommunicationTracker.class, ctId);
 	}
 	
+	public List<CommunicationTracker> getProgressReport(Long edmId) {
+		TypedQuery<CommunicationTracker> contactQuery = em.createQuery("select commtrack from CommunicationTracker commtrack where commtrack.edm.edmId=:edmId  "
+				+"and commtrack.status.statusID = 5",CommunicationTracker.class);
+		contactQuery.setParameter("edmId", edmId);
+		return contactQuery.getResultList();
+	}
+	
 	public Edm createEdm(Edm edm){
-
 		/*generation type increment is not possible in the EDM table*/
-		Long count = em.createQuery("select max(edm.edmId) from Edm edm",Long.class).getSingleResult();
+		//Long count = em.createQuery("select max(edm.edmId) from Edm edm",Long.class).getSingleResult();
 		Campaign camp = em.find(Campaign.class, edm.getCampaign().getCampaignID());
 		edm.setCampaign(camp);
-		edm.setEdmId(++count);
+		edm.setStatus(getStatusByDesc("CREATE"));
+		//edm.setEdmId(++count);
 		em.persist(edm);
 		return edm;
+	}
+	
+	public Event createEvent(Event event) {
+		em.persist(event);
+		return event;
+	}
+	public EdmEvent createEdmEvent(EdmEvent edmEvent) {
+		em.persist(edmEvent);
+		return edmEvent;
 	}
 	
 	public Edm updateEdmHtml(Long edmId,String edmHtml,String subject){
