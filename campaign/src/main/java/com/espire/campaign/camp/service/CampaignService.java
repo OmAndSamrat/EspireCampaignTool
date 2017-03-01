@@ -97,11 +97,10 @@ public class CampaignService {
 	public CommunicationTracker getCommTracker (Long ctId){
 		return campaignDao. getCommTracker( ctId);
 	}
-	
 	public List<CommunicationTracker> getProgressReport(Long edmId) {
 		return campaignDao.getProgressReport(edmId);
 	}
-	
+
 	public String parseUploadedHtml(String html, Long edmId) {
 		HtmlParser htmlParse = new HtmlParser(this.campaignDao, edmId);
 		return htmlParse.parsedHtml(html);
