@@ -7,7 +7,6 @@ import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 import com.espire.campaign.microsite.MicrositeController;
-import com.espire.campaign.security.AuthFilter;
 
 @ApplicationPath("micros")
 public class JAXRSMicroServiceConfiguration extends Application {

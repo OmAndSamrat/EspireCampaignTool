@@ -3,10 +3,8 @@ package com.espire.campaign.interaction.dao;
 import javax.persistence.EntityManager;
 
 import com.espire.campaign.exception.DBException;
-import com.espire.domain.Campaign;
 import com.espire.domain.CaptureInteraction;
 import com.espire.domain.CommunicationTracker;
-import com.espire.domain.Contact;
 import com.espire.domain.EdmEvent;
 /**
  * 

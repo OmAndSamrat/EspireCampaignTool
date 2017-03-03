@@ -71,6 +71,7 @@ public class CampaignService {
 	}
 	
 	@Asynchronous
+	@TransactionAttribute(value=TransactionAttributeType.NOT_SUPPORTED)
 	public void runCampaign(User loginUser,Long campaignId , Long edmId,Boolean trialMode){
 		try {
 			Edm edm = campaignDao.getEdmById(edmId);
@@ -90,6 +91,7 @@ public class CampaignService {
 		return campaignDao.getStatusByDesc(statusDesc);
 	}
 	
+	@TransactionAttribute(value=TransactionAttributeType.NOT_SUPPORTED)
 	public CommunicationTracker createCommTracker (CommunicationTracker ct){
 		return campaignDao.createCommTracker(ct);
 	}

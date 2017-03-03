@@ -19,8 +19,8 @@ import javax.ws.rs.core.SecurityContext;
 
 import org.apache.log4j.Logger;
 
-import com.espire.campaign.exception.DBException;
 import com.espire.campaign.domain.service.DomainService;
+import com.espire.campaign.exception.DBException;
 import com.espire.domain.Domain;
 
 @Path("/domains")

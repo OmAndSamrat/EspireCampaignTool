@@ -11,7 +11,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import com.espire.campaign.exception.DBException;
-import com.espire.domain.Contact;
 import com.espire.domain.Domain;
 import com.espire.domain.Geography;
 import com.espire.domain.Organization;
