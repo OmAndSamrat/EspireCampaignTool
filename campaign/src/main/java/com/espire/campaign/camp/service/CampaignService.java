@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Asynchronous;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -33,9 +34,12 @@ import com.espire.email.main.EmailJobFactory;
 public class CampaignService {
 	
 	@PersistenceContext(unitName = "campaign-pu")
-	EntityManager em;
+	private EntityManager em;
 	
 	private CampaignDao campaignDao;
+	
+	@EJB
+	private CampaignService thisEjbProxy;  // This is to ensure that the transaction attributes work when calling local methods.
 	
 	@PostConstruct
 	public void init(){
@@ -76,8 +80,8 @@ public class CampaignService {
 		try {
 			Edm edm = getEdmGraphbyId(edmId);
 			if(edm.getCampaign().getCampaignID().equals(campaignId)){
-				BatchEmailJob batchJob =new EmailJobFactory(this).createEmailJobs(loginUser,edm,trialMode);
-				EmailJobExecutor executor = new EmailJobExecutorImpl(new SendEmailEngine(),this);
+				BatchEmailJob batchJob =new EmailJobFactory(thisEjbProxy).createEmailJobs(loginUser,edm,trialMode);
+				EmailJobExecutor executor = new EmailJobExecutorImpl(new SendEmailEngine(),thisEjbProxy);
 				executor.sendBulkEmail(batchJob);
 			}else{
 				throw new IllegalArgumentException("EDM and campaign ids are not corelated");
@@ -104,7 +108,7 @@ public class CampaignService {
 	}
 
 	public String parseUploadedHtml(String html, Long edmId) {
-		HtmlParser htmlParse = new HtmlParser(this.campaignDao, edmId);
+		HtmlParser htmlParse = new HtmlParser(thisEjbProxy.campaignDao, edmId);
 		return htmlParse.parsedHtml(html);
 	}
 	
