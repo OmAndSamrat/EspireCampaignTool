@@ -201,7 +201,7 @@ public class CampaignController {
 		}catch(IllegalArgumentException ie){
 			return Response.status(Status.BAD_REQUEST).build();
 		}
-		return Response.status(Status.OK).entity(loginUser).build();
+		return Response.status(Status.OK).build();
 	}
 	
 	@PUT

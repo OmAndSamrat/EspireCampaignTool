@@ -74,7 +74,7 @@ public class CampaignService {
 	@TransactionAttribute(value=TransactionAttributeType.NOT_SUPPORTED)
 	public void runCampaign(User loginUser,Long campaignId , Long edmId,Boolean trialMode){
 		try {
-			Edm edm = campaignDao.getEdmById(edmId);
+			Edm edm = getEdmGraphbyId(edmId);
 			if(edm.getCampaign().getCampaignID().equals(campaignId)){
 				BatchEmailJob batchJob =new EmailJobFactory(this).createEmailJobs(loginUser,edm,trialMode);
 				EmailJobExecutor executor = new EmailJobExecutorImpl(new SendEmailEngine(),this);
@@ -91,7 +91,7 @@ public class CampaignService {
 		return campaignDao.getStatusByDesc(statusDesc);
 	}
 	
-	@TransactionAttribute(value=TransactionAttributeType.NOT_SUPPORTED)
+	//@TransactionAttribute(value=TransactionAttributeType.NOT_SUPPORTED)
 	public CommunicationTracker createCommTracker (CommunicationTracker ct){
 		return campaignDao.createCommTracker(ct);
 	}
@@ -125,6 +125,13 @@ public class CampaignService {
 	
 	public Edm getEdm(Long edmId) throws DBException {
 		return campaignDao.getEdmById(edmId);
+	}
+	
+	private Edm getEdmGraphbyId(Long edmId)throws DBException{
+		
+		Edm edm = null;
+		edm = campaignDao.getEdmGraphById(edmId);
+		return edm;
 	}
 	
 	

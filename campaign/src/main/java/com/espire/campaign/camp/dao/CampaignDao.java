@@ -191,4 +191,13 @@ public class CampaignDao {
 		return em.createQuery("select edm from Edm edm where edm.softDelete =1",Edm.class).getResultList();
 	}
 	
+	public Edm getEdmGraphById(Long edmId) throws DBException {
+		if(edmId==null ){
+			throw new DBException("edmId id cannot be null");
+		}
+		Edm edm = em.find(Edm.class, edmId);
+		edm.getCampaign().getCommunicationList();
+		return edm ;
+	}
+	
 }
