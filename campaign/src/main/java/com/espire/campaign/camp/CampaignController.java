@@ -192,6 +192,7 @@ public class CampaignController {
 	
 	@POST
 	@Path("/{id}/edms/{edmid}/execute")
+	@Produces(MediaType.APPLICATION_JSON)
 	@RolesAllowed({"IS"})
 	public Response executeCampaign(@Context SecurityContext sc,@PathParam("id") Long campaignId,@PathParam("edmid") Long edmId){
 		log.info(" CampaignController.executeCampaign INVOKED BY " +sc.getUserPrincipal().getName());
@@ -201,7 +202,7 @@ public class CampaignController {
 		}catch(IllegalArgumentException ie){
 			return Response.status(Status.BAD_REQUEST).build();
 		}
-		return Response.status(Status.OK).build();
+		return Response.status(Status.OK).entity(loginUser).build();
 	}
 	
 	@PUT

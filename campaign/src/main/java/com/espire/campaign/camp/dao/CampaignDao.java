@@ -196,7 +196,7 @@ public class CampaignDao {
 			throw new DBException("edmId id cannot be null");
 		}
 		Edm edm = em.find(Edm.class, edmId);
-		edm.getCampaign().getCommunicationList();
+		edm.getCampaign().getCommunicationList().size(); // force persistant context to load collections
 		return edm ;
 	}
 	

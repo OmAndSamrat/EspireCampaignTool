@@ -2,7 +2,7 @@ package com.espire.email.jobexecutor;
 
 import org.apache.log4j.Logger;
 
-import com.espire.campaign.camp.service.CampaignService;
+import com.espire.campaign.camp.service.CampaignServiceHelper;
 import com.espire.domain.CommunicationTracker;
 import com.espire.email.configuration.Configuration;
 import com.espire.email.job.BatchEmailJob;
@@ -13,8 +13,8 @@ public class EmailJobExecutorImpl implements EmailJobExecutor {
 
 	final static Logger log = Logger.getLogger(EmailJobExecutorImpl.class);	
 	MailEngine engine ;
-	private CampaignService campaignService;
-	public EmailJobExecutorImpl(MailEngine engineType,CampaignService cs){
+	private CampaignServiceHelper campaignService;
+	public EmailJobExecutorImpl(MailEngine engineType,CampaignServiceHelper cs){
 		engine =  engineType;
 		campaignService = cs;
 	}

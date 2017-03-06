@@ -39,7 +39,8 @@ public class CampaignService {
 	private CampaignDao campaignDao;
 	
 	@EJB
-	private CampaignService thisEjbProxy;  // This is to ensure that the transaction attributes work when calling local methods.
+	CampaignServiceHelper serviceHelper;
+	
 	
 	@PostConstruct
 	public void init(){
@@ -78,10 +79,10 @@ public class CampaignService {
 	@TransactionAttribute(value=TransactionAttributeType.NOT_SUPPORTED)
 	public void runCampaign(User loginUser,Long campaignId , Long edmId,Boolean trialMode){
 		try {
-			Edm edm = getEdmGraphbyId(edmId);
+			Edm edm = serviceHelper.getEdmGraphbyId(edmId);
 			if(edm.getCampaign().getCampaignID().equals(campaignId)){
-				BatchEmailJob batchJob =new EmailJobFactory(thisEjbProxy).createEmailJobs(loginUser,edm,trialMode);
-				EmailJobExecutor executor = new EmailJobExecutorImpl(new SendEmailEngine(),thisEjbProxy);
+				BatchEmailJob batchJob =new EmailJobFactory(serviceHelper).createEmailJobs(loginUser,edm,trialMode);
+				EmailJobExecutor executor = new EmailJobExecutorImpl(new SendEmailEngine(),serviceHelper);
 				executor.sendBulkEmail(batchJob);
 			}else{
 				throw new IllegalArgumentException("EDM and campaign ids are not corelated");
@@ -108,7 +109,7 @@ public class CampaignService {
 	}
 
 	public String parseUploadedHtml(String html, Long edmId) {
-		HtmlParser htmlParse = new HtmlParser(thisEjbProxy.campaignDao, edmId);
+		HtmlParser htmlParse = new HtmlParser(this.campaignDao, edmId);
 		return htmlParse.parsedHtml(html);
 	}
 	
@@ -130,13 +131,5 @@ public class CampaignService {
 	public Edm getEdm(Long edmId) throws DBException {
 		return campaignDao.getEdmById(edmId);
 	}
-	
-	private Edm getEdmGraphbyId(Long edmId)throws DBException{
-		
-		Edm edm = null;
-		edm = campaignDao.getEdmGraphById(edmId);
-		return edm;
-	}
-	
 	
 }

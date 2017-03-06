@@ -5,7 +5,7 @@ import java.util.Date;
 
 import org.apache.log4j.Logger;
 
-import com.espire.campaign.camp.service.CampaignService;
+import com.espire.campaign.camp.service.CampaignServiceHelper;
 import com.espire.domain.Campaign;
 import com.espire.domain.Communication;
 import com.espire.domain.CommunicationTracker;
@@ -19,9 +19,9 @@ public class EmailJobFactory extends JobFactory {
 
 	final static Logger log = Logger.getLogger(EmailJobFactory.class);	
 
-	private CampaignService campaignService;
+	private CampaignServiceHelper campaignService;
 
-	public EmailJobFactory( CampaignService campaignService){
+	public EmailJobFactory( CampaignServiceHelper campaignService){
 
 		this.campaignService = campaignService;
 	}
