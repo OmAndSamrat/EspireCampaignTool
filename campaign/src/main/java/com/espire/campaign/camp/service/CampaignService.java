@@ -39,7 +39,7 @@ public class CampaignService {
 	private CampaignDao campaignDao;
 	
 	@EJB
-	CampaignServiceHelper serviceHelper;
+	private CampaignServiceHelper serviceHelper; // Helper class to separate out the transaction scopes
 	
 	
 	@PostConstruct
@@ -96,7 +96,6 @@ public class CampaignService {
 		return campaignDao.getStatusByDesc(statusDesc);
 	}
 	
-	//@TransactionAttribute(value=TransactionAttributeType.NOT_SUPPORTED)
 	public CommunicationTracker createCommTracker (CommunicationTracker ct){
 		return campaignDao.createCommTracker(ct);
 	}
