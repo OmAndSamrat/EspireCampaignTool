@@ -30,8 +30,6 @@ public class EmailJobFactory extends JobFactory {
 		BatchEmailJob batchJob = new BatchEmailJob();
 		batchJob.setBatchJobId(""+new Date().getTime());
 		batchJob.setEmailJobList(new ArrayList<EmailJob>());
-		
-		Campaign campaign = edm.getCampaign();
 		if(trial){
 			//campaign.setStatus(campaignService.getStatusByDesc("TEST"));
 			edm.setStatus(campaignService.getStatusByDesc("TEST"));
@@ -61,10 +59,9 @@ public class EmailJobFactory extends JobFactory {
 				emailJob.setSubject(edm.getSubject());
 				parseEmailBody(emailJob);
 				batchJob.getEmailJobList().add(emailJob);
-				
 			}
-
 		}
+		campaignService.updateEdmStatus(edm);
 		return batchJob;
 	}
 

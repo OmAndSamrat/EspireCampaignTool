@@ -185,7 +185,12 @@ public class CampaignDao {
 		dbEdm.setSubject(subject);
 		return dbEdm;
 	}
-	
+
+	public Edm updateEdmStatus(Edm edm){
+		em.merge(edm);
+		return edm;
+	}
+
 	public List<Edm> getEdms() {
 		
 		return em.createQuery("select edm from Edm edm where edm.softDelete =1",Edm.class).getResultList();

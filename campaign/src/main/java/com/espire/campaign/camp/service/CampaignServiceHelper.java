@@ -45,6 +45,10 @@ public class CampaignServiceHelper {
 		return campaignDao.createCommTracker(ct);
 	}
 	
+	public Edm updateEdmStatus(Edm  edm) {
+		return campaignDao.updateEdmStatus(edm);
+	}
+	
 	public CommunicationTracker getCommTracker (Long ctId){
 		return campaignDao. getCommTracker( ctId);
 	}

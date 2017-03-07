@@ -20,7 +20,7 @@ public class SendEmailEngine implements MailEngine {
 	Session session;
 	final static Logger log = Logger.getLogger(SendEmailEngine.class);
 	
-	public void  sendEmail(EmailJob emailJob){/*
+	public void  sendEmail(EmailJob emailJob){
 		 session = Session.getInstance(Configuration.getProperties(),
 				  new javax.mail.Authenticator() {
 					protected PasswordAuthentication getPasswordAuthentication() {
@@ -46,6 +46,6 @@ public class SendEmailEngine implements MailEngine {
 			} catch (MessagingException e) {
 				log.error(e);
 			}
-	*/}
+	}
 	
 }
