@@ -37,9 +37,8 @@ public class EmailJobFactory extends JobFactory {
 			//campaign.setStatus(campaignService.getStatusByDesc("EXECUTED"));
 			edm.setStatus(campaignService.getStatusByDesc("EXECUTED"));
 		}
-
+		EmailJob emailJob = null;
 		for(Communication comm : edm.getCampaign().getCommunicationList()){
-
 			if(comm.isTrial().equals(trial)){ // parse only those contacts whose trial mode matches the method trial mode.
 				CommunicationTracker ct = new CommunicationTracker();
 				Status status = null;
@@ -55,7 +54,7 @@ public class EmailJobFactory extends JobFactory {
 				 /* COMMUNICATION TRACKER ID GENERATED AT THIS STEP WILL BE USED FOR CREATING TRACKING IDS*/
 				campaignService.createCommTracker(ct);
 				setEmailTemplate(edm.getEdmHtml());
-				EmailJob emailJob= new EmailJob(ct.getCommunicationTrackerID(),comm.getContact().getEmail(),comm.getContact().getContactName());
+				emailJob = new EmailJob(ct.getCommunicationTrackerID(),comm.getContact().getEmail(),comm.getContact().getContactName());
 				emailJob.setSubject(edm.getSubject());
 				parseEmailBody(emailJob);
 				batchJob.getEmailJobList().add(emailJob);
