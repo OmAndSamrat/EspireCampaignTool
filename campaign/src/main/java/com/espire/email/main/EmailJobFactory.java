@@ -54,7 +54,7 @@ public class EmailJobFactory extends JobFactory {
 				 /* COMMUNICATION TRACKER ID GENERATED AT THIS STEP WILL BE USED FOR CREATING TRACKING IDS*/
 				campaignService.createCommTracker(ct);
 				setEmailTemplate(edm.getEdmHtml());
-				emailJob = new EmailJob(ct.getCommunicationTrackerID(),comm.getContact().getEmail(),comm.getContact().getContactName());
+				emailJob = new EmailJob(ct.getCommunicationTrackerID(),comm.getContact().getEmail(),comm.getContact().getFirstName());
 				emailJob.setSubject(edm.getSubject());
 				parseEmailBody(emailJob);
 				batchJob.getEmailJobList().add(emailJob);
