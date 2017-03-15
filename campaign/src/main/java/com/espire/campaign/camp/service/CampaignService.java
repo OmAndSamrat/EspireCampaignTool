@@ -20,6 +20,7 @@ import com.espire.domain.Campaign;
 import com.espire.domain.Communication;
 import com.espire.domain.CommunicationTracker;
 import com.espire.domain.Edm;
+import com.espire.domain.EmailSenderInfo;
 import com.espire.domain.Status;
 import com.espire.domain.User;
 import com.espire.email.job.BatchEmailJob;
@@ -82,7 +83,7 @@ public class CampaignService {
 			Edm edm = serviceHelper.getEdmGraphbyId(edmId);
 			if(edm.getCampaign().getCampaignID().equals(campaignId)){
 				BatchEmailJob batchJob =new EmailJobFactory(serviceHelper).createEmailJobs(loginUser,edm,trialMode);
-				EmailJobExecutor executor = new EmailJobExecutorImpl(new SendEmailEngine(),serviceHelper);
+				EmailJobExecutor executor = new EmailJobExecutorImpl(new SendEmailEngine(),serviceHelper, new EmailSenderInfo(edm.getSenderEmail(), edm.getSenderPassword()));
 				executor.sendBulkEmail(batchJob);
 			}else{
 				throw new IllegalArgumentException("EDM and campaign ids are not corelated");
@@ -129,6 +130,9 @@ public class CampaignService {
 	
 	public Edm getEdm(Long edmId) throws DBException {
 		return campaignDao.getEdmById(edmId);
+	}
+	public Edm updateEdm(Edm  edm) {
+		return campaignDao.updateEdm(edm);
 	}
 	
 }

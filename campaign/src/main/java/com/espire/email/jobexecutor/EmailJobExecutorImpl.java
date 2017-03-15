@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 
 import com.espire.campaign.camp.service.CampaignServiceHelper;
 import com.espire.domain.CommunicationTracker;
+import com.espire.domain.EmailSenderInfo;
 import com.espire.email.configuration.Configuration;
 import com.espire.email.job.BatchEmailJob;
 import com.espire.email.job.EmailJob;
@@ -14,9 +15,11 @@ public class EmailJobExecutorImpl implements EmailJobExecutor {
 	final static Logger log = Logger.getLogger(EmailJobExecutorImpl.class);	
 	MailEngine engine ;
 	private CampaignServiceHelper campaignService;
-	public EmailJobExecutorImpl(MailEngine engineType,CampaignServiceHelper cs){
+	private EmailSenderInfo emailSenderInfo;
+	public EmailJobExecutorImpl(MailEngine engineType,CampaignServiceHelper cs, EmailSenderInfo emailSenderInfo){
 		engine =  engineType;
 		campaignService = cs;
+		this.emailSenderInfo = emailSenderInfo;
 	}
 	
 	@Override
@@ -27,7 +30,7 @@ public class EmailJobExecutorImpl implements EmailJobExecutor {
 		batchJob.getEmailJobList().stream().forEach((job)->{
 			try{
 				Thread.sleep(sleepDuration);
-				doSend(job);
+				doSend(job, this.emailSenderInfo);
 				CommunicationTracker currentCt = campaignService.getCommTracker(job.getTrackingId());
 				CommunicationTracker newCt = new CommunicationTracker();
 				newCt.setStatus(campaignService.getStatusByDesc("SENT"));
@@ -41,9 +44,9 @@ public class EmailJobExecutorImpl implements EmailJobExecutor {
 		});
 	}
 
-	private void doSend(EmailJob email){
+	private void doSend(EmailJob email, EmailSenderInfo emailSenderInfo){
 		log.info("Sending email :" +email.toString());
-		engine.sendEmail(email);
+		engine.sendEmail(email, emailSenderInfo);
 	}
 
 }

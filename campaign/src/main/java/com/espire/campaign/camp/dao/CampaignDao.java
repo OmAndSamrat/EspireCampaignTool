@@ -186,7 +186,7 @@ public class CampaignDao {
 		return dbEdm;
 	}
 
-	public Edm updateEdmStatus(Edm edm){
+	public Edm updateEdm(Edm edm){
 		em.merge(edm);
 		return edm;
 	}

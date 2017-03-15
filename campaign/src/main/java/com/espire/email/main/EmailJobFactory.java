@@ -60,7 +60,8 @@ public class EmailJobFactory extends JobFactory {
 				batchJob.getEmailJobList().add(emailJob);
 			}
 		}
-		campaignService.updateEdmStatus(edm);
+		//Update Status
+		campaignService.updateEdm(edm);
 		return batchJob;
 	}
 

@@ -34,6 +34,7 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import com.espire.campaign.camp.service.CampaignService;
 import com.espire.campaign.exception.DBException;
+import com.espire.campaign.security.EncryptUtil;
 import com.espire.domain.Campaign;
 import com.espire.domain.Communication;
 import com.espire.domain.Edm;
@@ -290,13 +291,33 @@ public class CampaignController {
 		return Response.status(Status.OK).entity(campaignService.createEdm(edm)).build();
 	}*/
 	
+	@POST
+	@Path("/edmupdate")
+	@Produces(MediaType.APPLICATION_JSON)
+	@RolesAllowed({"MARKETING"})
+	public Response updateEdmSender(@Context SecurityContext sc, @Valid Edm edm){
+		log.info(" CampaignController.updateEdm INVOKED BY " +sc.getUserPrincipal().getName());
+		//encrypt EDM password.
+		String password = "";
+		Edm returnedEdm = null;
+		try {
+			returnedEdm = campaignService.getEdm(edm.getEdmId());
+			password = EncryptUtil.encrypt(edm.getSenderPassword());
+			returnedEdm.setSenderPassword(password);
+			returnedEdm.setSenderEmail(edm.getSenderEmail());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return Response.status(Status.OK).entity(campaignService.updateEdm(returnedEdm)).build();
+	}
+	
 	@GET
 	@Path("/{id}/edms")
 	@Produces(MediaType.APPLICATION_JSON)
 	@RolesAllowed({"MARKETING"})
 	public Response getEdms(@Context SecurityContext sc){
 		log.info(" CampaignController.getEdms INVOKED BY " +sc.getUserPrincipal().getName());
-		
 		return Response.status(Status.OK).entity(campaignService.listEmds()).build();
 	}
 	

@@ -40,6 +40,10 @@ public class Edm implements Serializable{
 	@JoinColumn(name ="StatusID")
 	private Status status;
 	
+	private String senderEmail;
+	private String senderPassword;
+	
+	
 	public Long getEdmId() {
 		return edmId;
 	}
@@ -82,4 +86,17 @@ public class Edm implements Serializable{
 	public void setStatus(Status status) {
 		this.status = status;
 	}
+	public String getSenderEmail() {
+		return senderEmail;
+	}
+	public void setSenderEmail(String senderEmail) {
+		this.senderEmail = senderEmail;
+	}
+	public String getSenderPassword() {
+		return senderPassword;
+	}
+	public void setSenderPassword(String senderPassword) {
+		this.senderPassword = senderPassword;
+	}
+	
 }
