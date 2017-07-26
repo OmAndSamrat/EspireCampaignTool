@@ -3,8 +3,10 @@ package com.espire.domain;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="role")
 public class Role {
 
 	@Id

@@ -1,6 +1,8 @@
 package com.espire.campaign.security;
 
 
+import java.security.Principal;
+
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -9,7 +11,6 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.PreMatching;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
 
@@ -42,9 +43,11 @@ public class AuthFilter implements ContainerRequestFilter {
 
 	@Override
 	public void filter(ContainerRequestContext containerRequest) throws WebApplicationException {
-
+  
+    
 		User user;
 		UriInfo uriInfo  = containerRequest.getUriInfo();
+		  /***
 		//Get the authentication passed in HTTP headers parameters
 		String auth = containerRequest.getHeaderString("authorization");
 
@@ -77,10 +80,20 @@ public class AuthFilter implements ContainerRequestFilter {
 			}else{
 				throw new WebApplicationException(Status.UNAUTHORIZED);
 			}
+		} ****/
+
+		// Jboss Login Module impl
+		Principal principal =containerRequest.getSecurityContext().getUserPrincipal();
+		if(principal != null && principal.getName() != null) {
+			user = loginService.getUser(principal.getName());
+			HttpSession session = request.getSession();
+			session.setMaxInactiveInterval(1200);
+			usercontainer.addUser(user, session.getId());
+			log.info("User authenticated "+user.getName()+" authKey Generated:"+session.getId());
+			String scheme = containerRequest.getUriInfo().getRequestUri().getScheme();
+			containerRequest.setSecurityContext(new ApplicationSecurityContext(user, scheme));
 		}
+		
 
-		String scheme = containerRequest.getUriInfo().getRequestUri().getScheme();
-		containerRequest.setSecurityContext(new ApplicationSecurityContext(user, scheme));
-
-	}
+	}  
 }

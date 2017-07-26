@@ -28,7 +28,7 @@ public class LoginController {
 
 	@GET
 	@Path("/test")
-	@RolesAllowed("ADMIN")
+	@RolesAllowed("MARKETING")
 	public String getMessage(@Context SecurityContext sc){		
 		log.info("test message");		
 		User user = (User)sc.getUserPrincipal();
